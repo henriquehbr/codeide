@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>codeIDE | JS</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+	<!-- SIDEBAR -->
+	<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="sidebar">
+		<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar &times;</button>
+
+		<a onclick="cmd_alert()" class="w3-bar-item w3-button">alert()</a>
+
+		<a onclick="cmd_if()" class="w3-bar-item w3-button">if()</a>
+
+		<a onclick="cmd_else()" class="w3-bar-item w3-button">else</a>
+
+		<a onclick="cmd_for()" class="w3-bar-item w3-button">for()</a>
+
+	</div>
+
+	<!-- HEADER -->
+	<div class="w3-main" style="margin-left:200px">
+		<div class="w3-blue">
+			<button class="w3-button w3-blue w3-xlarge" onclick="open_sidebar()">&#9776;</button>
+			<div class="w3-container">
+				<h1 class="codeide-logo">codeIDE</h1>
+			</div>
+		</div>
+
+		<!-- PAGE CONTENT -->
+		<div class="w3-container">
+
+			<br>
+
+			<!-- TABS BUTTONS -->
+			<button class="w3-button w3-blue" onclick="openTab('#list')">Lista</button>
+			<button class="w3-button w3-blue" onclick="openTab('#code')">Código</button>
+
+			<!-- LIST TAB -->
+			<div id="list" class="tab">
+				<ul id="editArea" class="list"></ul>
+			</div>
+
+			<!-- CODE OUTPUT TAB -->
+			<div id="code" class="tab">
+				<pre id="codeOutput"></pre>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
+	<script src="index.js"></script>
+</body>
+</html>

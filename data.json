@@ -1,0 +1,18 @@
+[
+	{
+		"cmd_name":"cmd_if",
+		"cmd_parameter":"Digite a condicional:",
+		"cmd_codeblock":[
+			"<ul class='w3-card w3-padding w3-margin-bottom cmd_if sortable'>",
+				"<a class='close w3-right' onclick='remove(this)'>X</a>",
+				"<span class='visual'>Se (${conditional}) então...</span>",
+				"<pre class='code'>if (${conditional}) {</pre>",
+
+				"<ul class='list sortable'></ul>",
+
+				"<span class='visual'>}</span>",
+				"<pre class='code'>}</pre>",
+			"</ul>"
+		]
+	}
+]
