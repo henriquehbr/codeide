@@ -1,3 +1,59 @@
+function addCommand(command) {
+	// Get all data from data.json
+	$.getJSON("data.json", function(data) {
+		// For each item in json	
+		$.each(data, function(i) {
+			// If data is equal the selected command
+			if (data[i].cmd_name == command) {
+				// Join all elements of the code block array
+				codeblock_string = data[i].cmd_codeblock.join("");
+
+				// If parameters array exists...
+				if (data[i].cmd_parameter) {
+					parameters = [];
+					// For each parameter in command... (json object)
+					$.each(data[i].cmd_parameter, function(i1) {
+						// Push variable prompting the parameter value to array
+						parameters.push(prompt(data[i].cmd_parameter[i1]));
+
+						// Check if the parameter is null
+						if (parameters[i1] == null) {
+							return false;
+						// Check if the parameter length is less than 1
+						} else if (parameters[i1].length < 1) {
+							alert("Valor inválido");
+							return false;
+						} else if ( i1 == data[i].cmd_parameter.length - 1) {
+							// For each parameter in array...
+							$.each(parameters, function(i2) {
+								// Replace the [[cmd_parameter + index]] with the respective array value
+								codeblock_string = codeblock_string.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
+							})
+							
+							// Append the created code block
+							$("#editArea").append(codeblock_string);
+						}
+					})
+				} else {
+					$("#editArea").append(codeblock_string);
+				}
+
+				// Transform the list created list into a sortable list
+				sortable();
+
+				// Convert the list items into indented text
+				list2code();
+
+				// Define the color scheme of the code blocks
+				color_scheme("monokai");
+
+				close_sidebar();
+
+			}
+		})
+	})
+}
+
 function open_sidebar() {
 	$("#sidebar").css("display", "block");
 }
@@ -17,7 +73,7 @@ function sortable() {
 			put: true,
 			draggable: ".sortable",
 			animation: 150,
-			
+
 			// Event when you move an item in the list or between lists
 			onMove: function (evt, originalEvent) {
 				list2code();
@@ -40,7 +96,7 @@ function openTab(tabName) {
 }
 
 // Open the list tab
-openTab("list");
+openTab("#list");
 
 // Transform all the lists into sortable lists
 sortable();
@@ -67,95 +123,6 @@ function color_scheme(color_scheme) {
 
 			break;
 	}
-}
-
-// Create the alert() command
-function cmd_alert() {
-	var message = prompt("Digite a mensagem:");
-	// Check if the typed value is valid
-	if (message == null) {
-		return;
-	} else if (message.length < 1) {
-		return alert("Valor inválido");
-	}
-
-	$("#editArea").append(`
-		<li class="w3-card w3-padding w3-margin-bottom monokai cmd_alert sortable">
-			<a class="close w3-right" onclick="remove(this)">X</a>
-			<span class="visual">Mostrar mensagem: ${message}</span>
-			<span class="code">alert("${message}");</span>
-		</li>
-	`);
-
-	// Convert the list items into indented text
-	list2code();
-
-	// Define the color scheme of the commands
-	color_scheme("monokai");
-
-	close_sidebar();
-}
-
-// Create a if statement
-function cmd_if() {
-	var conditional = prompt("Digite a condição:");
-	// Check if the typed value is valid
-	if (conditional == null) {
-		return;
-	} else if (conditional.length < 1) {
-		return alert("Valor inválido");
-	}
-
-	$("#editArea").append(`
-		<ul class="w3-card w3-padding w3-margin-bottom cmd_if sortable">
-			<a class="close w3-right" onclick="remove(this)">X</a>
-			<span class="visual">Se (<span class="edit-span">${conditional}</span>) então...</span>
-			<span class="code">if (${conditional}) {</span>
-
-			<ul class="list sortable"></ul>
-
-			<span class="visual">}</span>
-			<span class="code">}</span>
-		</ul>
-	`);
-
-	// Transform the list created list into a sortable list
-	sortable();
-
-	// Convert the list items into indented text
-	list2code();
-
-	// Define the color scheme of the commands
-	color_scheme("monokai");
-
-	close_sidebar();
-}
-
-// Create a else statement
-function cmd_else() {
-	$("#editArea").append(`
-		<li class="w3-card w3-padding w3-margin-bottom cmd_else sortable">
-			<a class="close w3-right" onclick="remove(this)">X</a>
-			<span class="visual">Senão {</span>
-			<span class="code">else {</span>
-
-			<ul class="list sortable"></ul>
-
-			<span class="visual">}</span>
-			<span class="code">}</span>
-		</li>
-	`);
-
-	// Transform the list created list into a sortable list
-	sortable();
-
-	// Convert the list items into indented text
-	list2code();
-
-	// Define the color scheme of the commands
-	color_scheme("monokai");
-
-	close_sidebar();
 }
 
 // Create a for statement

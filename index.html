@@ -13,13 +13,13 @@
 	<div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:200px;" id="sidebar">
 		<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar &times;</button>
 
-		<a onclick="cmd_alert()" class="w3-bar-item w3-button">alert()</a>
+		<a onclick="addCommand('cmd_alert')" class="w3-bar-item w3-button">alert()</a>
 
-		<a onclick="cmd_if()" class="w3-bar-item w3-button">if()</a>
+		<a onclick="addCommand('cmd_if')" class="w3-bar-item w3-button">if()</a>
 
-		<a onclick="cmd_else()" class="w3-bar-item w3-button">else</a>
+		<a onclick="addCommand('cmd_else')" class="w3-bar-item w3-button">else</a>
 
-		<a onclick="cmd_for()" class="w3-bar-item w3-button">for()</a>
+		<a onclick="addCommand('cmd_for')" class="w3-bar-item w3-button">for()</a>
 
 	</div>
 
@@ -29,17 +29,16 @@
 			<button class="w3-button w3-blue w3-xlarge" onclick="open_sidebar()">&#9776;</button>
 			<div class="w3-container">
 				<h1 class="codeide-logo">codeIDE</h1>
+				<div class="w3-bar w3-blue">
+					<!-- TABS BUTTONS -->
+					<a onclick="openTab('#list')" class="w3-bar-item w3-button w3-mobile">Lista</a>
+					<a onclick="openTab('#code')" class="w3-bar-item w3-button w3-mobile">Código</a>
+				</div>
 			</div>
 		</div>
 
 		<!-- PAGE CONTENT -->
 		<div class="w3-container">
-
-			<br>
-
-			<!-- TABS BUTTONS -->
-			<button class="w3-button w3-blue" onclick="openTab('#list')">Lista</button>
-			<button class="w3-button w3-blue" onclick="openTab('#code')">Código</button>
 
 			<!-- LIST TAB -->
 			<div id="list" class="tab">

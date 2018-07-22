@@ -1,5 +1,7 @@
 @font-face {font-family: Atari; src: url("PressStart2P.ttf")}
 
+#editArea {padding-left: 0}
+
 #editArea, .sortable {
 	list-style-type: none;
 	font-size: 18px;
@@ -9,7 +11,4 @@
 
 .codeide-logo {font-family: Atari}
 
-.code {
-	display: none;
-	white-space: normal;
-}
+.code {display: none}
