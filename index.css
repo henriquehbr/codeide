@@ -7,6 +7,10 @@
 	font-size: 18px;
 }
 
+#page-sidebar {width:200px}
+
+#page-header {margin-left:200px}
+
 .list {min-height: 44.5px}
 
 .codeide-logo {font-family: Atari}

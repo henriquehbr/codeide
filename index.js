@@ -1,39 +1,84 @@
+// Append all the json commands on the sidebar from json
+window.onload = function() {
+	// Get all data from data.json
+	$.getJSON("data.json", function(data) {
+		// For each data in json...
+		$.each(data, function(i) {
+			// Outputs the item command name
+			$("#page-sidebar").append(`
+				<a onclick="addCommand('${data[i].cmd_name}')" class="w3-bar-item w3-button">${data[i].cmd_name}</a>
+			`);
+		})
+	})
+}
+
+// Add a command from json
 function addCommand(command) {
 	// Get all data from data.json
 	$.getJSON("data.json", function(data) {
-		// For each item in json	
+		// For each item in json...	
 		$.each(data, function(i) {
 			// If data is equal the selected command
 			if (data[i].cmd_name == command) {
+
 				// Join all elements of the code block array
 				codeblock_string = data[i].cmd_codeblock.join("");
 
 				// If parameters array exists...
 				if (data[i].cmd_parameter) {
-					parameters = [];
-					// For each parameter in command... (json object)
-					$.each(data[i].cmd_parameter, function(i1) {
-						// Push variable prompting the parameter value to array
-						parameters.push(prompt(data[i].cmd_parameter[i1]));
 
-						// Check if the parameter is null
-						if (parameters[i1] == null) {
-							return false;
-						// Check if the parameter length is less than 1
-						} else if (parameters[i1].length < 1) {
-							alert("Valor inválido");
-							return false;
-						} else if ( i1 == data[i].cmd_parameter.length - 1) {
-							// For each parameter in array...
-							$.each(parameters, function(i2) {
-								// Replace the [[cmd_parameter + index]] with the respective array value
-								codeblock_string = codeblock_string.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
-							})
-							
-							// Append the created code block
-							$("#editArea").append(codeblock_string);
-						}
+					// Join all elements of the parameter array
+					parameter_string = data[i].cmd_parameter.join("");
+
+					// Append the parameter modal to the page
+					$("#page-content").append(parameter_string);
+
+					// Turn the parameter modal visible
+					$("#modal").css("display", "block");
+
+					// OK button is clicked...
+					$("#btn-ok").on("click", function() {
+						parameters = [];
+
+						// For each input on the parameter modal...
+						$.each($("#modal input.required"), function(index) {
+
+							// If there is any empty input...
+							if (!$("#modal input.required").eq(index).val()) {
+								alert("Preencha todos os campos obrigatórios!");
+								return false;
+							}
+
+							// Insert the value of input to array
+							parameters.splice(index, 0, $("#modal input.required").eq(index).val());
+
+							// If all inputs are validated...
+							if (index == $("#modal input.required").length - 1) {
+
+								// For each parameter in array...
+								$.each(parameters, function(i2) {
+									// Replace the cmd_parameter + index with the respective array value
+									codeblock_string = codeblock_string.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
+								})
+
+								// Append the created code block
+								$("#editArea").append(codeblock_string);
+
+								$("#modal").remove();
+
+								// Transform the list created list into a sortable list
+								sortable();
+
+								// Convert the list items into indented text
+								list2code();
+
+								// Define the color scheme of the code blocks
+								color_scheme("monokai");
+
+							}
+						})
 					})
+
 				} else {
 					$("#editArea").append(codeblock_string);
 				}
@@ -55,11 +100,11 @@ function addCommand(command) {
 }
 
 function open_sidebar() {
-	$("#sidebar").css("display", "block");
+	$("#page-sidebar").css("display", "block");
 }
 
 function close_sidebar() {
-	$("#sidebar").css("display", "none");
+	$("#page-sidebar").css("display", "none");
 }
 
 // Transform all the lists into sortable lists
@@ -123,57 +168,6 @@ function color_scheme(color_scheme) {
 
 			break;
 	}
-}
-
-// Create a for statement
-function cmd_for() {
-	var firstConditional = prompt("Digite a primeira condição:");
-	// Check if the first value is valid
-	if (firstConditional == null) {
-		return;
-	} else if (firstConditional.length < 1) {
-		return alert("Valor inválido");
-	}
-
-	var secondConditional = prompt("Digite a segunda condição:");
-	// Check if the second value is valid
-	if (firstConditional == null) {
-		return;
-	} else if (secondConditional.length < 1) {
-		return alert("Valor inválido");
-	}
-
-	var thirdConditional = prompt("Digite a terceira condição:");
-	// Check if the third value is valid
-	if (firstConditional == null) {
-		return;
-	} else if (thirdConditional.length < 1) {
-		return alert("Valor inválido");
-	}
-
-	$("#editArea").append(`
-		<ul class="w3-card w3-padding w3-margin-bottom cmd_for sortable">
-			<a class="close w3-right" onclick="remove(this)">X</a>
-			<span class="visual">Para (<span class="visual">${firstConditional}; ${secondConditional}; ${thirdConditional}</span>) então...</span>
-			<span class="code">for (${firstConditional}; ${secondConditional}; ${thirdConditional}) {</span>
-
-			<ul class="list sortable"></ul>
-
-			<span class="visual">}</span>
-			<span class="code">}</span>
-		</ul>
-	`);
-
-	// Transform the list created list into a sortable list
-	sortable();
-
-	// Convert the list items into indented text
-	list2code();
-
-	// Define the color scheme of the commands
-	color_scheme("monokai");
-
-	close_sidebar();
 }
 
 // Removes a specific element

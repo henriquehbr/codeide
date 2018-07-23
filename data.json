@@ -1,8 +1,25 @@
 [
 	{
-		"cmd_name":"cmd_alert",
+		"cmd_name":"alert",
 		"cmd_parameter":[
-			"Digite a mensagem:"
+			"<div id='modal' class='w3-modal'>",
+				"<div class='w3-modal-content w3-card-4 w3-animate-top'>",
+					"<header class='w3-container w3-blue'>",
+						"<span onclick='$(`#modal`).remove()' class='w3-button w3-display-topright'>&times;</span>",
+						"<h2>Adicionar <span class='w3-codespan w3-round'>alert</span></h2>",
+					"</header>",
+
+					"<div class='w3-container w3-section'>",
+						"<label>Digite a mensagem:</label>",
+						"<input class='w3-input w3-border w3-light-grey required' type='text'>",
+					"</div>",
+
+					"<footer class='w3-container w3-blue'>",
+						"<button id='btn-ok' class='w3-button w3-padding w3-right'>OK</button>",
+						"<button onclick='$(`#modal`).remove()' class='w3-button w3-padding w3-right'>Cancelar</button>",
+					"</footer>",
+				"</div>",
+			"</div>"
 		],
 		"cmd_codeblock":[
 			"<li class='w3-card w3-padding w3-margin-bottom monokai cmd_alert sortable'>",
@@ -13,9 +30,26 @@
 		]
 	},
 	{
-		"cmd_name":"cmd_if",
+		"cmd_name":"if",
 		"cmd_parameter":[
-			"Digite a condição:"
+			"<div id='modal' class='w3-modal'>",
+				"<div class='w3-modal-content w3-card-4 w3-animate-top'>",
+					"<header class='w3-container w3-blue'>",
+						"<span onclick='$(`#modal`).remove()' class='w3-button w3-display-topright'>&times;</span>",
+						"<h2>Adicionar <span class='w3-codespan w3-round'>if</span></h2>",
+					"</header>",
+
+					"<div class='w3-container w3-section'>",
+						"<label>Digite a condição:</label>",
+						"<input class='w3-input w3-border w3-light-grey required' type='text'>",
+					"</div>",
+
+					"<footer class='w3-container w3-blue'>",
+						"<button id='btn-ok' class='w3-button w3-padding w3-right'>OK</button>",
+						"<button onclick='$(`#modal`).remove()' class='w3-button w3-padding w3-right'>Cancelar</button>",
+					"</footer>",
+				"</div>",
+			"</div>"
 		],
 		"cmd_codeblock":[
 			"<ul class='w3-card w3-padding w3-margin-bottom cmd_if sortable'>",
@@ -31,7 +65,7 @@
 		]
 	},
 	{
-		"cmd_name":"cmd_else",
+		"cmd_name":"else",
 		"cmd_codeblock":[
 			"<li class='w3-card w3-padding w3-margin-bottom cmd_else sortable'>",
 				"<a class='close w3-right' onclick='remove(this)'>X</a>",
@@ -46,11 +80,30 @@
 		]
 	},
 	{
-		"cmd_name":"cmd_for",
+		"cmd_name":"for",
 		"cmd_parameter":[
-			"Digite a primeira condição:",
-			"Digite a segunda condição:",
-			"Digite a terceira condição:"
+			"<div id='modal' class='w3-modal'>",
+				"<div class='w3-modal-content w3-card-4 w3-animate-top'>",
+					"<header class='w3-container w3-blue'>",
+						"<span onclick='$(`#modal`).remove()' class='w3-button w3-display-topright'>&times;</span>",
+						"<h2>Adicionar <span class='w3-codespan w3-round'>for</span></h2>",
+					"</header>",
+
+					"<div class='w3-container w3-section'>",
+						"<label>Digite a primeira condição:</label>",
+						"<input class='w3-input w3-border w3-light-grey required' type='text'>",
+						"<label>Digite a segunda condição:</label>",
+						"<input class='w3-input w3-border w3-light-grey required' type='text'>",
+						"<label>Digite a terceira condição:</label>",
+						"<input class='w3-input w3-border w3-light-grey required' type='text'>",
+					"</div>",
+
+					"<footer class='w3-container w3-blue'>",
+						"<button id='btn-ok' class='w3-button w3-padding w3-right'>OK</button>",
+						"<button onclick='$(`#modal`).remove()' class='w3-button w3-padding w3-right'>Cancelar</button>",
+					"</footer>",
+				"</div>",
+			"</div>"
 		],
 		"cmd_codeblock":[
 			"<ul class='w3-card w3-padding w3-margin-bottom cmd_for sortable'>",
