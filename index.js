@@ -25,13 +25,43 @@ function addCommand(command) {
 				codeblock_string = data[i].cmd_codeblock.join("");
 
 				// If parameters array exists...
-				if (data[i].cmd_parameter) {
+				if (data[i].cmd_parameters) {
 
-					// Join all elements of the parameter array
-					parameter_string = data[i].cmd_parameter.join("");
+					// Append the modal to the page
+					$("#page-content").append(`
+						<div id='modal' class='w3-modal'>
+							<div class='w3-modal-content w3-card-4 w3-animate-top'>
 
-					// Append the parameter modal to the page
-					$("#page-content").append(parameter_string);
+								<header id="modal-header" class='w3-container w3-blue'>
+									<span onclick='$("#modal").remove()' class='w3-button w3-display-topright'>&times;</span>
+									<h2>Adicionar <span class='w3-codespan w3-round'>${data[i].cmd_name}</span></h2>
+								</header>
+
+								<div id="modal-body" class='w3-container w3-section'></div>
+
+								<footer id="modal-footer" class='w3-container w3-blue'>
+									<button id='btn-ok' class='w3-button w3-padding w3-right'>OK</button>
+									<button onclick='$("#modal").remove()' class='w3-button w3-padding w3-right'>Cancelar</button>
+								</footer>
+							</div>
+						</div>
+					`);
+
+					// For each parameter in array
+					$.each(data[i].cmd_parameters, function(index) {
+						// Verify the parameter type
+						switch (data[i].cmd_parameters[index].prm_type) {
+
+							// If parameter type is input...
+							case "input":
+								$("#modal-body").append(`
+									<label>${data[i].cmd_parameters[index].prm_label}</label>
+									<input class='w3-input w3-border w3-light-grey required' type='text'></input>
+								`);
+								break;
+
+						}
+					})
 
 					// Turn the parameter modal visible
 					$("#modal").css("display", "block");
