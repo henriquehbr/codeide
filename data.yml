@@ -1,0 +1,55 @@
+---
+- cmd_name: alert
+  cmd_parameters:
+  - prm_type: input
+    prm_label: Digite a mensagem
+  cmd_codeblock: |
+    <li class='w3-card w3-padding w3-margin-bottom monokai cmd_alert sortable'>
+      <a class='close w3-right' onclick='remove(this)'>X</a>
+      <span class='visual'>Mostrar mensagem: cmd_parameter0</span>
+      <span class='code'>alert('cmd_parameter0');</span>
+    </li>
+
+- cmd_name: if
+  cmd_parameters:
+  - prm_type: input
+    prm_label: Digite a condição
+  cmd_codeblock: |
+    <li class='w3-card w3-padding w3-margin-bottom cmd_if sortable'>
+      <a class='close w3-right' onclick='remove(this)'>X</a>
+      <span class='visual'>Se (cmd_parameter0) então...</span>
+      <span class='code'>if (cmd_parameter0) {</span>
+      <ul class='list sortable'></ul>
+      <span class='visual'>}</span>
+      <span class='code'>}</span>
+    </li>
+
+- cmd_name: else
+  cmd_codeblock: |
+    <li class='w3-card w3-padding w3-margin-bottom cmd_else sortable'>
+      <a class='close w3-right' onclick='remove(this)'>X</a>
+      <span class='visual'>Senão {</span>
+      <span class='code'>else {</span>
+      <ul class='list sortable'></ul>
+      <span class='visual'>}</span>
+      <span class='code'>}</span>
+    </li>
+
+- cmd_name: for
+  cmd_parameters:
+  - prm_type: input
+    prm_label: Digite a primeira condição
+  - prm_type: input
+    prm_label: Digite a segunda condição
+  - prm_type: input
+    prm_label: Digite a terceira condição
+  cmd_codeblock: |
+    <li class='w3-card w3-padding w3-margin-bottom cmd_for sortable'>
+      <a class='close w3-right' onclick='remove(this)'>X</a>
+      <span class='visual'>Para (<span class='visual'>cmd_parameter0; cmd_parameter1;
+      cmd_parameter2</span>) então...</span>
+      <span class='code'>for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
+      <ul class='list sortable'></ul>
+      <span class='visual'>}</span>
+      <span class='code'>}</span>
+    </li>

@@ -1,12 +1,14 @@
 // Append all the json commands on the sidebar from json
 window.onload = function() {
-	// Get all data from data.json
-	$.getJSON("data.json", function(data) {
+	// Get all data from data.yml
+	$.get("data.yml", function(data) {
+		// Convert YAML data into JSON
+		var yamlData = jsyaml.load(data);
 		// For each data in json...
-		$.each(data, function(i) {
+		$.each(yamlData, function(i) {
 			// Outputs the item command name
 			$("#page-sidebar").append(`
-				<a onclick="addCommand('${data[i].cmd_name}')" class="w3-bar-item w3-button">${data[i].cmd_name}</a>
+				<a onclick="addCommand('${yamlData[i].cmd_name}')" class="w3-bar-item w3-button">${yamlData[i].cmd_name}</a>
 			`);
 		})
 	})
@@ -14,18 +16,17 @@ window.onload = function() {
 
 // Add a command from json
 function addCommand(command) {
-	// Get all data from data.json
-	$.getJSON("data.json", function(data) {
+	// Get all data from data.yml
+	$.get("data.yml", function(data) {
+		// Convert YAML data into JSON
+		var yamlData = jsyaml.load(data);
 		// For each item in json...	
-		$.each(data, function(i) {
+		$.each(yamlData, function(i) {
 			// If data is equal the selected command
-			if (data[i].cmd_name == command) {
-
-				// Join all elements of the code block array
-				codeblock_string = data[i].cmd_codeblock.join("");
+			if (yamlData[i].cmd_name == command) {
 
 				// If parameters array exists...
-				if (data[i].cmd_parameters) {
+				if (yamlData[i].cmd_parameters) {
 
 					// Append the modal to the page
 					$("#page-content").append(`
@@ -34,7 +35,7 @@ function addCommand(command) {
 
 								<header id="modal-header" class='w3-container w3-blue'>
 									<span onclick='$("#modal").remove()' class='w3-button w3-display-topright'>&times;</span>
-									<h2>Adicionar <span class='w3-codespan w3-round'>${data[i].cmd_name}</span></h2>
+									<h2>Adicionar <span class='w3-codespan w3-round'>${yamlData[i].cmd_name}</span></h2>
 								</header>
 
 								<div id="modal-body" class='w3-container w3-section'></div>
@@ -48,14 +49,14 @@ function addCommand(command) {
 					`);
 
 					// For each parameter in array
-					$.each(data[i].cmd_parameters, function(index) {
+					$.each(yamlData[i].cmd_parameters, function(index) {
 						// Verify the parameter type
-						switch (data[i].cmd_parameters[index].prm_type) {
+						switch (yamlData[i].cmd_parameters[index].prm_type) {
 
 							// If parameter type is input...
 							case "input":
 								$("#modal-body").append(`
-									<label>${data[i].cmd_parameters[index].prm_label}</label>
+									<label>${yamlData[i].cmd_parameters[index].prm_label}</label>
 									<input class='w3-input w3-border w3-light-grey required' type='text'></input>
 								`);
 								break;
@@ -84,15 +85,16 @@ function addCommand(command) {
 
 							// If all inputs are validated...
 							if (index == $("#modal input.required").length - 1) {
-
+								
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
+
 									// Replace the cmd_parameter + index with the respective array value
-									codeblock_string = codeblock_string.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
+									yamlData[i].cmd_codeblock = yamlData[i].cmd_codeblock.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
 								})
 
 								// Append the created code block
-								$("#editArea").append(codeblock_string);
+								$("#editArea").append(yamlData[i].cmd_codeblock);
 
 								$("#modal").remove();
 
@@ -110,7 +112,7 @@ function addCommand(command) {
 					})
 
 				} else {
-					$("#editArea").append(codeblock_string);
+					$("#editArea").append(yamlData[i].cmd_codeblock);
 				}
 
 				// Transform the list created list into a sortable list
