@@ -1,7 +1,7 @@
 // Append all the json commands on the sidebar from json
 window.onload = function() {
 	// Get all data from data.yml
-	$.get("data.yml", function(data) {
+	$.get("../assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
 		// For each data in json...
@@ -17,7 +17,7 @@ window.onload = function() {
 // Add a command from json
 function addCommand(command) {
 	// Get all data from data.yml
-	$.get("data.yml", function(data) {
+	$.get("../assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
 		// For each item in json...	
@@ -67,6 +67,8 @@ function addCommand(command) {
 					// Turn the parameter modal visible
 					$("#modal").css("display", "block");
 
+					$("#modal input:text:visible:first").focus();
+
 					// OK button is clicked...
 					$("#btn-ok").on("click", function() {
 						parameters = [];
@@ -104,9 +106,6 @@ function addCommand(command) {
 								// Convert the list items into indented text
 								list2code();
 
-								// Define the color scheme of the code blocks
-								color_scheme("monokai");
-
 							}
 						})
 					})
@@ -120,9 +119,6 @@ function addCommand(command) {
 
 				// Convert the list items into indented text
 				list2code();
-
-				// Define the color scheme of the code blocks
-				color_scheme("monokai");
 
 				close_sidebar();
 
@@ -141,27 +137,15 @@ function close_sidebar() {
 
 // Transform all the lists into sortable lists
 function sortable() {
-	// For each list in page...
-	for (var i=0; i < $(".list").length; i++) {
-		// Transform the list into a sortable list
-		var sortable = Sortable.create($(".list")[i], {
-			group: "editor",
-			pull: true,
-			put: true,
-			draggable: ".sortable",
-			animation: 150,
 
-			// Event when you move an item in the list or between lists
-			onMove: function (evt, originalEvent) {
-				list2code();
-			},
+	// Transform every list into a sortable list
+	$("ul.list").sortable({
+		onDrop: function ($item, container, _super) {
+			list2code();
+			_super($item, container);
+		}
+	});
 
-			// Called by any change to the list
-			onSort: function (evt) {
-				list2code();
-			}
-		});
-	}
 }
 
 // Switch between the tabs
@@ -181,27 +165,6 @@ sortable();
 // Convert the list items into indented text
 list2code();
 
-// Define the color scheme of the commands
-function color_scheme(color_scheme) {
-	switch (color_scheme) {
-		case "monokai":
-
-			// Set the alert() color
-			$(".cmd_alert").css({
-				"background-color": "#66d9ef",
-				"color": "white"
-			});
-
-			// Set the if/else statement color
-			$(".cmd_if, .cmd_else, .cmd_for").css({
-				"background-color": "#f92672",
-				"color": "white"
-			});
-
-			break;
-	}
-}
-
 // Removes a specific element
 function remove(element) {
 	$(element).parent().remove();
@@ -218,9 +181,9 @@ function list2code() {
 
 		tabQty = [];
 		// If the item has any parents
-		if ($(this).parents(".list").length) {
+		if ($(this).parents("ul").length) {
 			// For each parent of the actual item...
-			$.each($(this).parents(".list"), function() {
+			$.each($(this).parents("ul"), function() {
 				// Adds a tab character to the tabQty array
 				tabQty.push("\t");
 			});

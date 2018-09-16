@@ -4,43 +4,47 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>codeIDE | JS</title>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="css/w3.css">
+	<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-	<!-- SIDEBAR -->
-	<div id="page-sidebar" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left">
-		<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar &times;</button>
-	</div>
+	<div class="wrapper">
 
-	<!-- HEADER -->
-	<div id="page-header" class="w3-main">
-		<div class="w3-blue">
-			<button class="w3-button w3-blue w3-xlarge" onclick="open_sidebar()">&#9776;</button>
-			<div class="w3-container">
-				<h1 class="codeide-logo">codeIDE</h1>
-				<div class="w3-bar w3-blue">
-
-					<!-- TABS BUTTONS -->
-					<a onclick="openTab('#list')" class="w3-bar-item w3-button w3-mobile">Lista</a>
-					<a onclick="openTab('#code')" class="w3-bar-item w3-button w3-mobile">Código</a>
-
-				</div>
-			</div>
+		<!-- SIDEBAR -->
+		<div id="page-sidebar" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left">
+			<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar &times;</button>
 		</div>
 
-		<!-- PAGE CONTENT -->
-		<div id="page-content" class="w3-container">
+		<!-- HEADER -->
+		<div id="page-header" class="w3-main">
+			<div class="w3-blue">
+				<button class="w3-button w3-blue w3-xlarge" onclick="open_sidebar()">&#9776;</button>
+				<div class="w3-container">
+					<h1 class="codeide-logo">codeIDE</h1>
+					<div class="w3-bar w3-blue">
 
-			<!-- LIST TAB -->
-			<div id="list" class="tab">
-				<ul id="editArea" class="list"></ul>
+						<!-- TABS BUTTONS -->
+						<a onclick="openTab('#list')" class="w3-bar-item w3-button w3-mobile">Lista</a>
+						<a onclick="openTab('#code')" class="w3-bar-item w3-button w3-mobile">Código</a>
+
+					</div>
+				</div>
 			</div>
 
-			<!-- CODE OUTPUT TAB -->
-			<div id="code" class="tab">
-				<pre id="codeOutput"></pre>
+			<!-- PAGE CONTENT -->
+			<div id="page-content" class="w3-container">
+
+				<!-- LIST TAB -->
+				<div id="list" class="tab">
+					<ul id="editArea" class="list"></ul>
+				</div>
+
+				<!-- CODE OUTPUT TAB -->
+				<div id="code" class="tab">
+					<pre id="codeOutput"></pre>
+				</div>
+
 			</div>
 
 		</div>
@@ -49,7 +53,7 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js"></script>
-	<script src="index.js"></script>
+	<script src="js/sortable.js"></script>
+	<script src="js/index.js"></script>
 </body>
 </html>

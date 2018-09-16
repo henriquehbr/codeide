@@ -1,0 +1,92 @@
+@font-face {font-family: Atari; src: url("../assets/PressStart2P.ttf")}
+
+#editArea {padding-left: 0}
+
+#editArea, .sortable {
+	list-style-type: none;
+	font-size: 18px;
+}
+
+#page-sidebar {width:200px}
+
+#page-header {margin-left:200px}
+
+.list {min-height: 44.5px}
+
+.codeide-logo {font-family: Atari}
+
+.code {display: none}
+
+/* ########## */
+
+body.dragging,
+body.dragging * {
+	cursor: move !important;
+}
+
+/* Prevent Chrome push to reload on mobile */
+body, .wrapper {
+	position: absolute;
+	top: 0px;
+
+	width: 100%;
+	height: 100%;
+
+	margin: 0;
+
+	overflow-y: hidden;
+}
+
+body {
+	/* Sending body at the bottom of the stack */
+	z-index: 1;
+}
+
+.wrapper {
+	/* Making the wrapper stack above the body */
+	z-index: 2;
+}
+
+.dragged {
+	opacity: 0.5;
+	overflow: hidden;
+}
+
+ul.list {
+	padding-left: 0;
+	margin: 0 0 9px 0;
+	min-height: 10px;
+}
+
+ul.list li {
+	display: block;
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid #CCC;
+	color: blue;
+	background: lightgray;
+	user-select: none;
+}
+
+ul.list li.placeholder {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	border-color: red;
+	border-style: dotted;
+	z-index: 2000;
+}
+
+ul.list li.placeholder:before {
+	position: absolute;
+	content: "";
+	width: 0;
+	height: 0;
+	margin-top: -8px;
+	left: -8px;
+	top: -1px;
+	border: 8px solid transparent;
+	border-left-color: red;
+	border-right: none;
+	z-index: 2000;
+}
