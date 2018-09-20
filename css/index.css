@@ -17,10 +17,25 @@
 
 .code {display: none}
 
+/* BLOCKS COLOR HIGHLIGHT (MONOKAI)
+#272822 - BLACK
+#F92672 - RED
+#66D9EF - BLUE
+#A6E22E - GREEN
+#FD971F - YELLOW
+-----------------------------*/
+
+.cmd_alert {
+	background-color: #66D9EF;
+}
+
+.cmd_if, .cmd_else, .cmd_for {
+	background-color: #A6E22E;
+}
+
 /* ########## */
 
-body.dragging,
-body.dragging * {
+body.dragging, body.dragging * {
 	cursor: move !important;
 }
 
@@ -59,12 +74,10 @@ ul.list {
 }
 
 ul.list li {
+	color: white;
 	display: block;
 	margin: 5px;
 	padding: 5px;
-	border: 1px solid #CCC;
-	color: blue;
-	background: lightgray;
 	user-select: none;
 }
 
