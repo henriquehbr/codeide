@@ -1,7 +1,7 @@
 // Append all the json commands on the sidebar from json
 window.onload = function() {
 	// Get all data from data.yml
-	$.get("../assets/data.yml", function(data) {
+	$.get("assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
 		// For each data in json...
@@ -17,7 +17,7 @@ window.onload = function() {
 // Add a command from json
 function addCommand(command) {
 	// Get all data from data.yml
-	$.get("../assets/data.yml", function(data) {
+	$.get("assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
 		// For each item in json...	
