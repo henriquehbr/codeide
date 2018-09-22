@@ -76,7 +76,7 @@ ul.list {
 ul.list li {
 	color: white;
 	display: block;
-	margin: 5px;
+	margin: 5px 0;
 	padding: 5px;
 	user-select: none;
 }

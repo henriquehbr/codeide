@@ -1,17 +1,32 @@
-// Append all the json commands on the sidebar from json
 window.onload = function() {
+
 	// Get all data from data.yml
 	$.get("../assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
 		// For each data in json...
 		$.each(yamlData, function(i) {
-			// Outputs the item command name
+			// Append all the json commands on the sidebar from json
 			$("#page-sidebar").append(`
 				<a onclick="addCommand('${yamlData[i].cmd_name}')" class="w3-bar-item w3-button">${yamlData[i].cmd_name}</a>
 			`);
 		})
 	})
+
+	// Verify if browser supports Web Storage
+	if (typeof(Storage) !== "undefined") {
+		console.log("Your browser supports Web Storage");
+	} else {
+		console.log("Your browser doesn't support Web Storage!");
+	}
+
+	// Create "night_mode" on localStorage (if not exists)
+	if (localStorage.getItem("night_mode") == null) {
+		localStorage.setItem("night_mode", "false");
+	}
+
+	// Verify if night mode is on or off
+	nightMode("verify");
 }
 
 // Add a command from json
@@ -168,6 +183,80 @@ list2code();
 // Removes a specific element
 function remove(element) {
 	$(element).parent().remove();
+}
+
+// Open and close menu dropdown
+function triggerDropdown() {
+	var x = document.getElementById("dropdown-menu");
+	if (x.className.indexOf("w3-show") == -1) {
+		x.className += " w3-show";
+
+	} else {
+		x.className = x.className.replace(" w3-show", "");
+	}
+}
+
+// Enable, disable or verify night mode state
+function nightMode(action) {
+	switch (action) {
+		case "trigger":
+			// Enable night mode
+			if (localStorage.getItem("night_mode") == "false") {
+				localStorage.setItem("night_mode", "true");
+				$("body").css("background-color", "#323232");
+				$("#codeOutput").css("color", "white");
+				$("#dropdown-menu").css({
+					"background-color": "#323232",
+					"color": "white"
+				});
+				$("#page-sidebar").css({
+					"background-color": "#323232",
+					"color": "white"
+				});
+			// Disable night mode
+			} else if (localStorage.getItem("night_mode") == "true") {
+				localStorage.setItem("night_mode", "false");
+				$("body").css("background-color", "transparent");
+				$("#codeOutput").css("color", "black");
+				$("#dropdown-menu").css({
+					"background-color": "white",
+					"color": "black"
+				});
+				$("#page-sidebar").css({
+					"background-color": "white",
+					"color": "black"
+				});
+			}
+		break;
+
+		case "verify":
+			// Verify if night mode is enable
+			if (localStorage.getItem("night_mode") == "true") {
+				$("body").css("background-color", "#323232");
+				$("#codeOutput").css("color", "white");
+				$("#dropdown-menu").css({
+					"background-color": "#323232",
+					"color": "white"
+				});
+				$("#page-sidebar").css({
+					"background-color": "#323232",
+					"color": "white"
+				});
+			// Verify if night mode is disabled
+			} else if (localStorage.getItem("night_mode") == "false") {
+				$("body").css("background-color", "transparent");
+				$("#codeOutput").css("color", "black");
+				$("#dropdown-menu").css({
+					"background-color": "white",
+					"color": "black"
+				});
+				$("#page-sidebar").css({
+					"background-color": "white",
+					"color": "black"
+				});
+			}
+		break;
+	}
 }
 
 // Convert the list items into indented text

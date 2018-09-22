@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>codeIDE | JS</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/index.css">
 </head>
@@ -13,27 +14,45 @@
 
 		<!-- SIDEBAR -->
 		<div id="page-sidebar" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left">
-			<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar &times;</button>
+			<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar <i class="fas fa-times"></i></button>
 		</div>
 
 		<!-- HEADER -->
 		<div id="page-header" class="w3-main">
-			<div class="w3-blue">
-				<button class="w3-button w3-blue w3-xlarge" onclick="open_sidebar()">&#9776;</button>
-				<div class="w3-container">
-					<h1 class="codeide-logo">codeIDE</h1>
-					<div class="w3-bar w3-blue">
+			<div class="w3-bar w3-blue w3-padding-small w3-card">
 
-						<!-- TABS BUTTONS -->
-						<a onclick="openTab('#list')" class="w3-bar-item w3-button w3-mobile">Lista</a>
-						<a onclick="openTab('#code')" class="w3-bar-item w3-button w3-mobile">Código</a>
+				<!-- SIDEBAR BUTTON -->
+				<a class="w3-button w3-blue w3-large w3-bar-item" onclick="open_sidebar()">
+					<i class="fas fa-bars"></i>
+				</a>
 
+				<!-- LOGO -->
+				<a class="w3-bar-item w3-large codeide-logo">codeIDE</a>
+
+				<!-- DROPDOWN BUTTON -->
+				<div class="w3-dropdown-click w3-right">
+					<button onclick="triggerDropdown()" class="w3-button w3-large">
+						<i class="fas fa-ellipsis-v"></i>
+					</button>
+
+					<!-- DROPDOWN MENU -->
+					<div id="dropdown-menu" class="w3-dropdown-content w3-bar-block w3-card" style="right: 0">
+						<a href="#" class="w3-bar-item w3-button" onclick="openTab($('#list'))">
+							<i class="fas fa-list-ul"></i> Mostrar blocos
+						</a>
+						<a href="#" class="w3-bar-item w3-button" onclick="openTab($('#code'))">
+							<i class="fas fa-code"></i> Mostrar código
+						</a>
+						<a href="#" class="w3-bar-item w3-button" onclick="nightMode('trigger')">
+							<i class="fas fa-moon"></i> Modo noturno
+						</a>
 					</div>
 				</div>
+
 			</div>
 
 			<!-- PAGE CONTENT -->
-			<div id="page-content" class="w3-container">
+			<div id="page-content" class="w3-container w3-margin-top">
 
 				<!-- LIST TAB -->
 				<div id="list" class="tab">
