@@ -79,6 +79,7 @@ ul.list li {
 	margin: 5px 0;
 	padding: 5px;
 	user-select: none;
+	box-sizing: content-box;
 }
 
 ul.list li.placeholder {

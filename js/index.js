@@ -185,17 +185,6 @@ function remove(element) {
 	$(element).parent().remove();
 }
 
-// Open and close menu dropdown
-function triggerDropdown() {
-	var x = document.getElementById("dropdown-menu");
-	if (x.className.indexOf("w3-show") == -1) {
-		x.className += " w3-show";
-
-	} else {
-		x.className = x.className.replace(" w3-show", "");
-	}
-}
-
 // Enable, disable or verify night mode state
 function nightMode(action) {
 	switch (action) {
@@ -205,27 +194,23 @@ function nightMode(action) {
 				localStorage.setItem("night_mode", "true");
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-				$("#dropdown-menu").css({
-					"background-color": "#323232",
-					"color": "white"
-				});
 				$("#page-sidebar").css({
 					"background-color": "#323232",
 					"color": "white"
 				});
+				$("#nightModeIcon").removeClass("fas");
+				$("#nightModeIcon").addClass("fas");
 			// Disable night mode
 			} else if (localStorage.getItem("night_mode") == "true") {
 				localStorage.setItem("night_mode", "false");
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
-				$("#dropdown-menu").css({
-					"background-color": "white",
-					"color": "black"
-				});
 				$("#page-sidebar").css({
 					"background-color": "white",
 					"color": "black"
 				});
+				$("#nightModeIcon").removeClass("fas");
+				$("#nightModeIcon").addClass("far");
 			}
 		break;
 
@@ -234,26 +219,22 @@ function nightMode(action) {
 			if (localStorage.getItem("night_mode") == "true") {
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-				$("#dropdown-menu").css({
-					"background-color": "#323232",
-					"color": "white"
-				});
 				$("#page-sidebar").css({
 					"background-color": "#323232",
 					"color": "white"
 				});
+				$("#nightModeIcon").removeClass("fas");
+				$("#nightModeIcon").addClass("fas");
 			// Verify if night mode is disabled
 			} else if (localStorage.getItem("night_mode") == "false") {
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
-				$("#dropdown-menu").css({
-					"background-color": "white",
-					"color": "black"
-				});
 				$("#page-sidebar").css({
 					"background-color": "white",
 					"color": "black"
 				});
+				$("#nightModeIcon").removeClass("fas");
+				$("#nightModeIcon").addClass("far");
 			}
 		break;
 	}

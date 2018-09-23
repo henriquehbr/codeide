@@ -29,25 +29,15 @@
 				<!-- LOGO -->
 				<a class="w3-bar-item w3-large codeide-logo">codeIDE</a>
 
-				<!-- DROPDOWN BUTTON -->
-				<div class="w3-dropdown-click w3-right">
-					<button onclick="triggerDropdown()" class="w3-button w3-large">
-						<i class="fas fa-ellipsis-v"></i>
-					</button>
+				<!-- NIGHT MODE BUTTON -->
+				<a class="w3-bar-item w3-button w3-large w3-right" onclick="nightMode('trigger')">
+					<i id="nightModeIcon" class="far fa-moon"></i>
+				</a>
 
-					<!-- DROPDOWN MENU -->
-					<div id="dropdown-menu" class="w3-dropdown-content w3-bar-block w3-card" style="right: 0">
-						<a href="#" class="w3-bar-item w3-button" onclick="openTab($('#list'))">
-							<i class="fas fa-list-ul"></i> Mostrar blocos
-						</a>
-						<a href="#" class="w3-bar-item w3-button" onclick="openTab($('#code'))">
-							<i class="fas fa-code"></i> Mostrar código
-						</a>
-						<a href="#" class="w3-bar-item w3-button" onclick="nightMode('trigger')">
-							<i class="fas fa-moon"></i> Modo noturno
-						</a>
-					</div>
-				</div>
+				<div class="w3-bar w3-row">
+					<a onclick="openTab($('#list'))" class="w3-button w3-bar-item w3-col s6">Blocos</a>
+					<a onclick="openTab($('#code'))" class="w3-button w3-bar-item w3-col s6">Código</a>
+				</div> 
 
 			</div>
 

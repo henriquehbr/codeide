@@ -4,8 +4,8 @@
   - prm_type: input
     prm_label: Digite a mensagem
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom sortable cmd_alert'>
-      <a class='close w3-right' onclick='remove(this)'>X</a>
+    <li class='w3-card w3-padding w3-margin-bottom cmd_alert'>
+      <a class='close w3-right' onclick='remove(this)'><i class="fas fa-times"></i></a>
       <span class='visual'>Mostrar mensagem: cmd_parameter0</span>
       <span class='code'>alert('cmd_parameter0');</span>
     </li>
@@ -15,22 +15,22 @@
   - prm_type: input
     prm_label: Digite a condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom sortable cmd_if'>
-      <a class='close w3-right' onclick='remove(this)'>X</a>
+    <li class='w3-card w3-padding w3-margin-bottom cmd_if'>
+      <a class='close w3-right' onclick='remove(this)'><i class="fas fa-times"></i></a>
       <span class='visual'>Se (cmd_parameter0) então...</span>
       <span class='code'>if (cmd_parameter0) {</span>
-      <ul class='sortable'></ul>
+      <ul></ul>
       <span class='visual'>}</span>
       <span class='code'>}</span>
     </li>
 
 - cmd_name: else
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom sortable cmd_else'>
-      <a class='close w3-right' onclick='remove(this)'>X</a>
+    <li class='w3-card w3-padding w3-margin-bottom cmd_else'>
+      <a class='close w3-right' onclick='remove(this)'><i class="fas fa-times"></i></a>
       <span class='visual'>Senão {</span>
       <span class='code'>else {</span>
-      <ul class='sortable'></ul>
+      <ul></ul>
       <span class='visual'>}</span>
       <span class='code'>}</span>
     </li>
@@ -44,12 +44,12 @@
   - prm_type: input
     prm_label: Digite a terceira condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom sortable cmd_for'>
-      <a class='close w3-right' onclick='remove(this)'>X</a>
+    <li class='w3-card w3-padding w3-margin-bottom cmd_for'>
+      <a class='close w3-right' onclick='remove(this)'><i class="fas fa-times"></i></a>
       <span class='visual'>Para (<span class='visual'>cmd_parameter0; cmd_parameter1;
       cmd_parameter2</span>) então...</span>
       <span class='code'>for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
-      <ul class='sortable'></ul>
+      <ul></ul>
       <span class='visual'>}</span>
       <span class='code'>}</span>
     </li>
