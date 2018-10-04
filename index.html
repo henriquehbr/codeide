@@ -4,45 +4,64 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>codeIDE | JS</title>
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-	<link rel="stylesheet" href="css/w3.css">
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.38.0/dist/material-components-web.min.css">
+	<link async href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+	<link async rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="css/w3pro.css">
 	<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-	<div class="wrapper">
+	<div class="preventDragReload">
 
-		<!-- SIDEBAR -->
-		<div id="page-sidebar" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left">
-			<button class="w3-bar-item w3-button w3-hide-large" onclick="close_sidebar()">Fechar <i class="fas fa-times"></i></button>
-		</div>
+		<header class="mdc-top-app-bar w3-card">
+			<div class="mdc-top-app-bar__row">
 
-		<!-- HEADER -->
-		<div id="page-header" class="w3-main">
-			<div class="w3-bar w3-blue w3-padding-small w3-card">
+				<!-- TOP APP BAR -->
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+					<span class="mdc-top-app-bar__title codeide-logo">codeIDE</span>
+				</section>
 
-				<!-- SIDEBAR BUTTON -->
-				<a class="w3-button w3-blue w3-large w3-bar-item" onclick="open_sidebar()">
-					<i class="fas fa-bars"></i>
-				</a>
+				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
 
-				<!-- LOGO -->
-				<a class="w3-bar-item w3-large codeide-logo">codeIDE</a>
+					<!-- ADD COMMAND -->
+					<button class="mdc-icon-button material-icons" onclick="selectCommand()">add</button>
 
-				<!-- NIGHT MODE BUTTON -->
-				<a class="w3-bar-item w3-button w3-large w3-right" onclick="nightMode('trigger')">
-					<i id="nightModeIcon" class="far fa-moon"></i>
-				</a>
+					<!-- CHANGE VIEW MODE -->
+					<button class="mdc-icon-button material-icons" id="btnChangeView" onclick="changeViewMode()">code</button>
 
-				<div class="w3-bar w3-row">
-					<a onclick="openTab($('#list'))" class="w3-button w3-bar-item w3-col s6">Blocos</a>
-					<a onclick="openTab($('#code'))" class="w3-button w3-bar-item w3-col s6">Código</a>
-				</div> 
+					<!-- SIDE MENU -->
+					<a id="menu-btn" onclick="menu.open = !menu.open" class="material-icons mdc-top-app-bar__action-item" aria-label="Opções" alt="Opções">more_vert</a>
+					<div class="mdc-menu-anchor">
+						<div class="mdc-menu">
+							<ul class="mdc-menu__items mdc-list" role="menu" aria-hidden="true">
 
+								<!-- CODE101 PAGE -->
+								<li onclick="window.open('https://henriquehbr.github.io/code101/')" class="mdc-list-item" role="menuitem">
+									<i class="mdc-list-item__graphic material-icons">school</i> code101
+								</li>
+
+								<!-- NIGHT MODE -->
+								<li id="nightModeBtn" onclick="nightMode('trigger')" class="mdc-list-item" role="menuitem">
+									<i class="mdc-list-item__graphic material-icons">brightness_2</i> Modo noturno
+								</li>
+
+								<!-- ABOUT -->
+								<li onclick="aboutDialog()" class="mdc-list-item" role="menuitem">
+									<i class="mdc-list-item__graphic material-icons">info</i> Sobre
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</section>
 			</div>
+		</header>
 
-			<!-- PAGE CONTENT -->
-			<div id="page-content" class="w3-container w3-margin-top">
+		<!-- PAGE CONTENT -->
+		<div class="mdc-top-app-bar--fixed-adjust">
+			<div id="pageContent">
 
 				<!-- LIST TAB -->
 				<div id="list" class="tab">
@@ -55,13 +74,14 @@
 				</div>
 
 			</div>
-
 		</div>
 
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/material-components-web@0.38.0/dist/material-components-web.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/hideseek/0.8.0/jquery.hideseek.min.js"></script>
 	<script src="js/sortable.js"></script>
 	<script src="js/index.js"></script>
 </body>

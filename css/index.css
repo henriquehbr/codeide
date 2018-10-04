@@ -1,15 +1,13 @@
 @font-face {font-family: Atari; src: url("../assets/PressStart2P.ttf")}
 
-#editArea {padding-left: 0}
+#editArea, #codeOutput {
+	padding: 10px;
+}
 
 #editArea, .sortable {
 	list-style-type: none;
 	font-size: 18px;
 }
-
-#page-sidebar {width:200px}
-
-#page-header {margin-left:200px}
 
 .list {min-height: 44.5px}
 
@@ -40,7 +38,7 @@ body.dragging, body.dragging * {
 }
 
 /* Prevent Chrome push to reload on mobile */
-body, .wrapper {
+body, .preventDragReload {
 	position: absolute;
 	top: 0px;
 
@@ -57,7 +55,7 @@ body {
 	z-index: 1;
 }
 
-.wrapper {
+.preventDragReload {
 	/* Making the wrapper stack above the body */
 	z-index: 2;
 }

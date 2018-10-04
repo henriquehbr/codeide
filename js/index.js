@@ -25,12 +25,71 @@ window.onload = function() {
 		localStorage.setItem("night_mode", "false");
 	}
 
+	menu = new mdc.menu.MDCMenu(document.querySelector(".mdc-menu"));
+
 	// Verify if night mode is on or off
 	nightMode("verify");
 }
 
-// Add a command from json
+function selectCommand() {
+	$("body").append(`
+		<aside id="selectCommandDialog" class="mdc-dialog" role="alertdialog">
+			<div class="mdc-dialog__surface">
+
+				<header class="mdc-dialog__header">
+					<h2 id="dialog-title" class="mdc-dialog__header__title">Escolha um comando</h2><br><br>
+				</header>
+
+				<section id="mdc-dialog-body" class="mdc-dialog__body">
+					<input id="searchCommands" class="w3-input w3-border w3-round" type="text" data-toggle="hideseek" data-list="#commandList" placeholder="Digite o nome de um comando...">
+					<ul id="commandList" class="mdc-list mdc-list--two-line" aria-orientation="vertical"></ul>
+				</section>
+
+				<footer class="mdc-dialog__footer">
+					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Adicionar</button>
+					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Cancelar</button>
+				</footer>
+
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+	`);
+
+	// Remove all inputs on the dialog body
+	$("#mdc-dialog-body ul").html("");
+
+	// Get all data from data.yml
+	$.get("assets/data.yml", function(data) {
+		// Convert YAML data into JSON
+		var yamlData = jsyaml.load(data);
+		// For each command in data.yml
+		$.each(yamlData, function(i) {
+			$("#mdc-dialog-body ul").append(`
+				<li onclick="addCommand('${yamlData[i].cmd_name}')" class="mdc-list-item">
+					<span class="mdc-list-item__text">
+					<span class="mdc-list-item__primary-text">
+						<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+					</span>
+					<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
+				</li>
+			`);
+		})
+	})
+
+	$('#searchCommands').hideseek({
+		nodata: "Nenhum comando encontrado"
+	});
+
+	dialogSelectCommand = new mdc.dialog.MDCDialog(document.querySelector("#selectCommandDialog"));
+	dialogSelectCommand.show();
+}
+
+// Add a command from data.yml
 function addCommand(command) {
+
+	// Close the "selectCommand" dialog
+	dialogSelectCommand.close();
+
 	// Get all data from data.yml
 	$.get("assets/data.yml", function(data) {
 		// Convert YAML data into JSON
@@ -43,25 +102,31 @@ function addCommand(command) {
 				// If parameters array exists...
 				if (yamlData[i].cmd_parameters) {
 
-					// Append the modal to the page
-					$("#page-content").append(`
-						<div id='modal' class='w3-modal'>
-							<div class='w3-modal-content w3-card-4 w3-animate-top'>
+					// Append the dialog to the page
+					$("#pageContent").append(`
+						<aside id="addCommandDialog" class="mdc-dialog" role="alertdialog">
+							<div class="mdc-dialog__surface">
 
-								<header id="modal-header" class='w3-container w3-blue'>
-									<span onclick='$("#modal").remove()' class='w3-button w3-display-topright'>&times;</span>
-									<h2>Adicionar <span class='w3-codespan w3-round'>${yamlData[i].cmd_name}</span></h2>
+								<header class="mdc-dialog__header">
+									<h2 id="dialog-title" class="mdc-dialog__header__title">
+										Adicionar <span class='w3-codespan w3-round'>${yamlData[i].cmd_name}</span>
+									</h2>
 								</header>
 
-								<div id="modal-body" class='w3-container w3-section'></div>
+								<section id="mdc-dialog-body" class="mdc-dialog__body"></section>
 
-								<footer id="modal-footer" class='w3-container w3-blue'>
-									<button id='btn-ok' class='w3-button w3-padding w3-right'>OK</button>
-									<button onclick='$("#modal").remove()' class='w3-button w3-padding w3-right'>Cancelar</button>
+								<footer class="mdc-dialog__footer">
+									<button id="btnOK" type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">OK</button>
+									<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Cancelar</button>
 								</footer>
+
 							</div>
-						</div>
+							<div class="mdc-dialog__backdrop"></div>
+						</aside>
 					`);
+
+					// Remove all inputs on the dialog body
+					$("#mdc-dialog-body").html("");
 
 					// For each parameter in array
 					$.each(yamlData[i].cmd_parameters, function(index) {
@@ -70,38 +135,40 @@ function addCommand(command) {
 
 							// If parameter type is input...
 							case "input":
-								$("#modal-body").append(`
+								$("#mdc-dialog-body").append(`
 									<label>${yamlData[i].cmd_parameters[index].prm_label}</label>
-									<input class='w3-input w3-border w3-light-grey required' type='text'></input>
+									<input class='w3-input w3-border w3-round required' type='text'></input>
 								`);
 								break;
 
 						}
 					})
 
-					// Turn the parameter modal visible
-					$("#modal").css("display", "block");
+					// Turn the parameter dialog visible
+					var dialogAddCommand = new mdc.dialog.MDCDialog(document.querySelector("#addCommandDialog"));
+					dialogAddCommand.show();
 
-					$("#modal input:text:visible:first").focus();
+					// Focus on the first input on the dialog
+					$("#addCommandDialog input:text:visible:first").focus();
 
 					// OK button is clicked...
-					$("#btn-ok").on("click", function() {
+					$("#btnOK").on("click", function() {
 						parameters = [];
 
-						// For each input on the parameter modal...
-						$.each($("#modal input.required"), function(index) {
+						// For each input on the parameter dialog...
+						$.each($("#addCommandDialog input.required"), function(index) {
 
 							// If there is any empty input...
-							if (!$("#modal input.required").eq(index).val()) {
+							if (!$("#addCommandDialog input.required").eq(index).val()) {
 								alert("Preencha todos os campos obrigatórios!");
 								return false;
 							}
 
 							// Insert the value of input to array
-							parameters.splice(index, 0, $("#modal input.required").eq(index).val());
+							parameters.splice(index, 0, $("#addCommandDialog input.required").eq(index).val());
 
 							// If all inputs are validated...
-							if (index == $("#modal input.required").length - 1) {
+							if (index == $("#addCommandDialog input.required").length - 1) {
 								
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
@@ -113,7 +180,8 @@ function addCommand(command) {
 								// Append the created code block
 								$("#editArea").append(yamlData[i].cmd_codeblock);
 
-								$("#modal").remove();
+								// Remove the dialog from the page
+								$("#addCommandDialog").remove();
 
 								// Transform the list created list into a sortable list
 								sortable();
@@ -135,19 +203,9 @@ function addCommand(command) {
 				// Convert the list items into indented text
 				list2code();
 
-				close_sidebar();
-
 			}
 		})
 	})
-}
-
-function open_sidebar() {
-	$("#page-sidebar").css("display", "block");
-}
-
-function close_sidebar() {
-	$("#page-sidebar").css("display", "none");
 }
 
 // Transform all the lists into sortable lists
@@ -163,16 +221,52 @@ function sortable() {
 
 }
 
-// Switch between the tabs
-function openTab(tabName) {
-	for (var i = 0; i < $(".tab").length; i++) {
-		$(".tab").eq(i).css("display", "none");
+// Switch between the list and code
+function changeViewMode() {
+	// Enable list mode
+	if ($("#btnChangeView").text() == "code") {
+		$("#code").css("display", "none");
+		$("#list").css("display", "block");
+		$("#btnChangeView").text("list");
+	// Enable code mode
+	} else {
+		$("#list").css("display", "none");
+		$("#code").css("display", "block");
+		$("#btnChangeView").text("code");
 	}
-	$(tabName).css("display", "block");
 }
 
-// Open the list tab
-openTab("#list");
+// Displays the "about" dialog
+function aboutDialog() {
+	$("body").append(`
+		<aside id="aboutDialog" class="mdc-dialog" role="alertdialog">
+			<div class="mdc-dialog__surface">
+
+				<header class="mdc-dialog__header">
+					<h2 id="dialog-title" class="mdc-dialog__header__title">
+						Sobre o codeIDE
+					</h2>
+				</header>
+
+				<section id="mdc-dialog-body" class="mdc-dialog__body">
+					Uma IDE web com interface arrasta e solta.<br><br>
+					<a href="https://github.com/henriquehbr/codeide" target="_blank">Visitar repositório no Github</a>
+				</section>
+
+				<footer class="mdc-dialog__footer">
+					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">OK</button>
+				</footer>
+
+			</div>
+			<div class="mdc-dialog__backdrop"></div>
+		</aside>
+	`);
+	dialogAbout = new mdc.dialog.MDCDialog(document.querySelector("#aboutDialog"));
+	dialogAbout.show();
+}
+
+// Switch to the list mode
+changeViewMode();
 
 // Transform all the lists into sortable lists
 sortable();
@@ -183,6 +277,7 @@ list2code();
 // Removes a specific element
 function remove(element) {
 	$(element).parent().remove();
+	list2code();
 }
 
 // Enable, disable or verify night mode state
@@ -194,47 +289,23 @@ function nightMode(action) {
 				localStorage.setItem("night_mode", "true");
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-				$("#page-sidebar").css({
-					"background-color": "#323232",
-					"color": "white"
-				});
-				$("#nightModeIcon").removeClass("fas");
-				$("#nightModeIcon").addClass("fas");
 			// Disable night mode
 			} else if (localStorage.getItem("night_mode") == "true") {
 				localStorage.setItem("night_mode", "false");
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
-				$("#page-sidebar").css({
-					"background-color": "white",
-					"color": "black"
-				});
-				$("#nightModeIcon").removeClass("fas");
-				$("#nightModeIcon").addClass("far");
 			}
 		break;
 
 		case "verify":
-			// Verify if night mode is enable
+			// Verify if night mode is enabled
 			if (localStorage.getItem("night_mode") == "true") {
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-				$("#page-sidebar").css({
-					"background-color": "#323232",
-					"color": "white"
-				});
-				$("#nightModeIcon").removeClass("fas");
-				$("#nightModeIcon").addClass("fas");
 			// Verify if night mode is disabled
 			} else if (localStorage.getItem("night_mode") == "false") {
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
-				$("#page-sidebar").css({
-					"background-color": "white",
-					"color": "black"
-				});
-				$("#nightModeIcon").removeClass("fas");
-				$("#nightModeIcon").addClass("far");
 			}
 		break;
 	}
