@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>codeIDE | JS</title>
+	<title>codeIDE</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.38.0/dist/material-components-web.min.css">
 	<link async href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
@@ -13,69 +13,80 @@
 </head>
 <body>
 
-	<div class="preventDragReload">
+	<!-- DRAWER -->
+	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+		<nav class="mdc-drawer__drawer">
 
-		<header class="mdc-top-app-bar w3-card">
-			<div class="mdc-top-app-bar__row">
+			<!-- LANGUAGES LIST -->
+			<nav id="languagesDrawer" class="mdc-drawer__content mdc-list mdc-list--two-line"></nav>
 
-				<!-- TOP APP BAR -->
-				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-					<span class="mdc-top-app-bar__title codeide-logo">codeIDE</span>
-				</section>
+		</nav>
+	</aside>
 
-				<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+	<!-- TOP APP BAR -->
+	<header class="mdc-top-app-bar w3-card">
+		<div class="mdc-top-app-bar__row">
 
-					<!-- ADD COMMAND -->
-					<button class="mdc-icon-button material-icons" onclick="selectCommand()">add</button>
+			<!-- CONTENT AT LEFT -->
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
 
-					<!-- CHANGE VIEW MODE -->
-					<button class="mdc-icon-button material-icons" id="btnChangeView" onclick="changeViewMode()">code</button>
+				<!-- DRAWER BUTTON -->
+				<a id="drawerBtn" onclick="drawer.open = true" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
 
-					<!-- SIDE MENU -->
-					<a id="menu-btn" onclick="menu.open = !menu.open" class="material-icons mdc-top-app-bar__action-item" aria-label="Opções" alt="Opções">more_vert</a>
-					<div class="mdc-menu-anchor">
-						<div class="mdc-menu">
-							<ul class="mdc-menu__items mdc-list" role="menu" aria-hidden="true">
+				<!-- APP TITLE -->
+				<span class="mdc-top-app-bar__title codeide-logo">codeIDE</span>
 
-								<!-- CODE101 PAGE -->
-								<li onclick="window.open('https://henriquehbr.github.io/code101/')" class="mdc-list-item" role="menuitem">
-									<i class="mdc-list-item__graphic material-icons">school</i> code101
-								</li>
+			</section>
 
-								<!-- NIGHT MODE -->
-								<li id="nightModeBtn" onclick="nightMode('trigger')" class="mdc-list-item" role="menuitem">
-									<i class="mdc-list-item__graphic material-icons">brightness_2</i> Modo noturno
-								</li>
+			<!-- CONTENT AT RIGHT -->
+			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
 
-								<!-- ABOUT -->
-								<li onclick="aboutDialog()" class="mdc-list-item" role="menuitem">
-									<i class="mdc-list-item__graphic material-icons">info</i> Sobre
-								</li>
+				<!-- CHANGE VIEW MODE -->
+				<button class="mdc-icon-button material-icons" id="btnChangeView" onclick="changeViewMode()">code</button>
 
-							</ul>
-						</div>
+				<!-- SIDE MENU -->
+				<a id="menu-btn" onclick="menu.open = !menu.open" class="material-icons mdc-top-app-bar__action-item" aria-label="Opções" alt="Opções">more_vert</a>
+				<div class="mdc-menu-anchor">
+					<div class="mdc-menu">
+						<ul class="mdc-menu__items mdc-list" role="menu" aria-hidden="true">
+
+							<!-- CODE101 PAGE -->
+							<li onclick="window.open('https://henriquehbr.github.io/code101/')" class="mdc-list-item" role="menuitem">
+								<i class="mdc-list-item__graphic material-icons">school</i> code101
+							</li>
+
+							<!-- NIGHT MODE -->
+							<li id="nightModeBtn" onclick="nightMode('trigger')" class="mdc-list-item" role="menuitem">
+								<i class="mdc-list-item__graphic material-icons">brightness_2</i> Modo noturno
+							</li>
+
+							<!-- ABOUT -->
+							<li onclick="aboutDialog()" class="mdc-list-item" role="menuitem">
+								<i class="mdc-list-item__graphic material-icons">info</i> Sobre
+							</li>
+
+						</ul>
 					</div>
-				</section>
-			</div>
-		</header>
-
-		<!-- PAGE CONTENT -->
-		<div class="mdc-top-app-bar--fixed-adjust">
-			<div id="pageContent">
-
-				<!-- LIST TAB -->
-				<div id="list" class="tab">
-					<ul id="editArea" class="list"></ul>
 				</div>
-
-				<!-- CODE OUTPUT TAB -->
-				<div id="code" class="tab">
-					<pre id="codeOutput"></pre>
-				</div>
-
-			</div>
+			</section>
 		</div>
+	</header>
 
+	<!-- PAGE CONTENT -->
+	<div class="mdc-top-app-bar--fixed-adjust">
+		<div id="pageContent">
+
+			<!-- LIST TAB -->
+			<div id="list" class="tab">
+				<ul id="editArea" class="list"></ul>
+			</div>
+
+			<!-- CODE OUTPUT TAB -->
+			<div id="code" class="tab">
+				<pre id="codeOutput"></pre>
+			</div>
+
+		</div>
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

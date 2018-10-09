@@ -9,6 +9,8 @@
 	font-size: 18px;
 }
 
+#editArea {display: inline-block !important}
+
 .list {min-height: 44.5px}
 
 .codeide-logo {font-family: Atari}
@@ -48,16 +50,6 @@ body, .preventDragReload {
 	margin: 0;
 
 	overflow-y: hidden;
-}
-
-body {
-	/* Sending body at the bottom of the stack */
-	z-index: 1;
-}
-
-.preventDragReload {
-	/* Making the wrapper stack above the body */
-	z-index: 2;
 }
 
 .dragged {

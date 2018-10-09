@@ -1,17 +1,7 @@
 window.onload = function() {
 
-	// Get all data from data.yml
-	$.get("assets/data.yml", function(data) {
-		// Convert YAML data into JSON
-		var yamlData = jsyaml.load(data);
-		// For each data in json...
-		$.each(yamlData, function(i) {
-			// Append all the json commands on the sidebar from json
-			$("#page-sidebar").append(`
-				<a onclick="addCommand('${yamlData[i].cmd_name}')" class="w3-bar-item w3-button">${yamlData[i].cmd_name}</a>
-			`);
-		})
-	})
+	// Drawer
+	drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector(".mdc-drawer--temporary"));
 
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
@@ -31,64 +21,32 @@ window.onload = function() {
 	nightMode("verify");
 }
 
-function selectCommand() {
-	$("body").append(`
-		<aside id="selectCommandDialog" class="mdc-dialog" role="alertdialog">
-			<div class="mdc-dialog__surface">
+function listLanguagesOnDrawer() {
 
-				<header class="mdc-dialog__header">
-					<h2 id="dialog-title" class="mdc-dialog__header__title">Escolha um comando</h2><br><br>
-				</header>
-
-				<section id="mdc-dialog-body" class="mdc-dialog__body">
-					<input id="searchCommands" class="w3-input w3-border w3-round" type="text" data-toggle="hideseek" data-list="#commandList" placeholder="Digite o nome de um comando...">
-					<ul id="commandList" class="mdc-list mdc-list--two-line" aria-orientation="vertical"></ul>
-				</section>
-
-				<footer class="mdc-dialog__footer">
-					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Adicionar</button>
-					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Cancelar</button>
-				</footer>
-
-			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
-	`);
-
-	// Remove all inputs on the dialog body
-	$("#mdc-dialog-body ul").html("");
+	// Empty the previous content of the language list
+	$("#languagesDrawer").html("");
 
 	// Get all data from data.yml
 	$.get("assets/data.yml", function(data) {
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
-		// For each command in data.yml
+		// For each data in json...
 		$.each(yamlData, function(i) {
-			$("#mdc-dialog-body ul").append(`
-				<li onclick="addCommand('${yamlData[i].cmd_name}')" class="mdc-list-item">
+			// Append all the json commands on the sidebar from json
+			$("#languagesDrawer").append(`
+				<a onclick="addCommand('${yamlData[i].cmd_name}'); drawer.open = false" class="mdc-list-item mdc-list-item">
 					<span class="mdc-list-item__text">
-					<span class="mdc-list-item__primary-text">
-						<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+						<span class="mdc-list-item__primary-text"><span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span></span>
+						<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
 					</span>
-					<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
-				</li>
+				</a>
 			`);
 		})
 	})
-
-	$('#searchCommands').hideseek({
-		nodata: "Nenhum comando encontrado"
-	});
-
-	dialogSelectCommand = new mdc.dialog.MDCDialog(document.querySelector("#selectCommandDialog"));
-	dialogSelectCommand.show();
 }
 
 // Add a command from data.yml
 function addCommand(command) {
-
-	// Close the "selectCommand" dialog
-	dialogSelectCommand.close();
 
 	// Get all data from data.yml
 	$.get("assets/data.yml", function(data) {
@@ -137,7 +95,7 @@ function addCommand(command) {
 							case "input":
 								$("#mdc-dialog-body").append(`
 									<label>${yamlData[i].cmd_parameters[index].prm_label}</label>
-									<input class='w3-input w3-border w3-round required' type='text'></input>
+									<input class='w3-input w3-border w3-round required' type='text'>
 								`);
 								break;
 
@@ -265,15 +223,6 @@ function aboutDialog() {
 	dialogAbout.show();
 }
 
-// Switch to the list mode
-changeViewMode();
-
-// Transform all the lists into sortable lists
-sortable();
-
-// Convert the list items into indented text
-list2code();
-
 // Removes a specific element
 function remove(element) {
 	$(element).parent().remove();
@@ -340,3 +289,11 @@ function list2code() {
 
 	});
 }
+
+changeViewMode();
+
+sortable();
+
+list2code();
+
+listLanguagesOnDrawer();
