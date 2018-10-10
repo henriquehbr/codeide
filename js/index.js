@@ -185,9 +185,9 @@ function changeViewMode() {
 	if ($("#btnChangeView").text() == "code") {
 		$("#code").css("display", "none");
 		$("#list").css("display", "block");
-		$("#btnChangeView").text("list");
+		$("#btnChangeView").text("view_list");
 	// Enable code mode
-	} else {
+	} else if ($("#btnChangeView").text() == "view_list") {
 		$("#list").css("display", "none");
 		$("#code").css("display", "block");
 		$("#btnChangeView").text("code");

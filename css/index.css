@@ -1,15 +1,17 @@
 @font-face {font-family: Atari; src: url("../assets/PressStart2P.ttf")}
 
-#editArea, #codeOutput {
-	padding: 10px;
-}
+#editArea, #codeOutput {padding: 10px}
 
 #editArea, .sortable {
 	list-style-type: none;
 	font-size: 18px;
 }
 
-#editArea {display: inline-block !important}
+#editArea * {clear: both}
+
+.mdc-top-app-bar, .mdc-drawer, .mdc-dialog {user-select: none}
+
+.mdc-top-app-bar--fixed-adjust {height: 100vh}
 
 .list {min-height: 44.5px}
 
@@ -35,22 +37,7 @@
 
 /* ########## */
 
-body.dragging, body.dragging * {
-	cursor: move !important;
-}
-
-/* Prevent Chrome push to reload on mobile */
-body, .preventDragReload {
-	position: absolute;
-	top: 0px;
-
-	width: 100%;
-	height: 100%;
-
-	margin: 0;
-
-	overflow-y: hidden;
-}
+body.dragging, body.dragging * {cursor: move !important}
 
 .dragged {
 	opacity: 0.5;

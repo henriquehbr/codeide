@@ -5,8 +5,8 @@
   - prm_type: input
     prm_label: Digite a mensagem
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom cmd_alert'>
-      <a class='w3-right' onclick='remove(this)'><i class="material-icons">close</i></a>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_alert'>
+      <a class='w3-right w3-margin-left' onclick='remove(this)'><i class="material-icons">close</i></a>
       <span class='visual'>Mostrar mensagem: cmd_parameter0</span>
       <span class='code'>alert('cmd_parameter0');</span>
     </li>
@@ -17,24 +17,24 @@
   - prm_type: input
     prm_label: Digite a condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom cmd_if'>
-      <a class='w3-right' onclick='remove(this)'><i class="material-icons">close</i></a>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_if'>
+      <a class='w3-right w3-margin-left' onclick='remove(this)'><i class="material-icons">close</i></a>
       <span class='visual'>Se (cmd_parameter0) então...</span>
       <span class='code'>if (cmd_parameter0) {</span>
       <ul></ul>
-      <span class='visual'>}</span>
+      <span class='visual w3-left'>}</span>
       <span class='code'>}</span>
     </li>
 
 - cmd_name: else
   cmd_description: Estrutura condicional
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom cmd_else'>
-      <a class='w3-right' onclick='remove(this)'><i class="material-icons">close</i></a>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_else'>
+      <a class='w3-right w3-margin-left' onclick='remove(this)'><i class="material-icons">close</i></a>
       <span class='visual'>Senão {</span>
       <span class='code'>else {</span>
       <ul></ul>
-      <span class='visual'>}</span>
+      <span class='visual w3-left'>}</span>
       <span class='code'>}</span>
     </li>
 
@@ -48,12 +48,12 @@
   - prm_type: input
     prm_label: Digite a terceira condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom cmd_for'>
-      <a class='w3-right' onclick='remove(this)'><i class="material-icons">close</i></a>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_for'>
+      <a class='w3-right w3-margin-left' onclick='remove(this)'><i class="material-icons">close</i></a>
       <span class='visual'>Para (<span class='visual'>cmd_parameter0; cmd_parameter1;
       cmd_parameter2</span>) então...</span>
       <span class='code'>for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
       <ul></ul>
-      <span class='visual'>}</span>
+      <span class='visual w3-left'>}</span>
       <span class='code'>}</span>
     </li>
