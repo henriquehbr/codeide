@@ -7,17 +7,25 @@
 	font-size: 18px;
 }
 
-#editArea * {clear: both}
+#editArea *:not(.material-icons) {clear: both}
+
+#editArea {touch-action: none}
 
 .mdc-top-app-bar, .mdc-drawer, .mdc-dialog {user-select: none}
-
-.mdc-top-app-bar--fixed-adjust {height: 100vh}
 
 .list {min-height: 44.5px}
 
 .codeide-logo {font-family: Atari}
 
 .code {display: none}
+
+.scrollDiv {
+	position: fixed;
+	width: 100%;
+	padding: 20px;
+	bottom: 0;
+	z-index: -1;
+}
 
 /* BLOCKS COLOR HIGHLIGHT (MONOKAI)
 #272822 - BLACK
@@ -27,13 +35,11 @@
 #FD971F - YELLOW
 -----------------------------*/
 
-.cmd_alert {
-	background-color: #66D9EF;
-}
+.cmd_alert {background-color: #A6E22E}
 
-.cmd_if, .cmd_else, .cmd_for {
-	background-color: #A6E22E;
-}
+.cmd_if, .cmd_else, .cmd_for {background-color: #A6E22E}
+
+.cmd_comment {background-color: #BDC3C7}
 
 /* ########## */
 

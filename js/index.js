@@ -171,9 +171,14 @@ function sortable() {
 
 	// Transform every list into a sortable list
 	$("ul.list").sortable({
-		onDrop: function ($item, container, _super) {
+		handle: "i.drag",
+		onDrag: function () {
 			list2code();
-			_super($item, container);
+			if ($("li.placeholder")[0].getBoundingClientRect().top >= $(".scrollDiv")[0].getBoundingClientRect().top) {
+				window.scrollBy(0, 20);
+			} else if ($("li.placeholder")[0].getBoundingClientRect().top <= $(".mdc-top-app-bar")[0].getBoundingClientRect().height) {
+				window.scrollBy(0, -25);
+			}
 		}
 	});
 
