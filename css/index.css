@@ -11,7 +11,20 @@
 
 #editArea {touch-action: none}
 
+/* FIX SIZE ISSUES WITH MDC TEXTFIELD (OUTLINED) */
+
+#addCommandDialog .mdc-text-field {width: 100%}
+#addCommandDialog .mdc-text-field--outlined::before,
+#addCommandDialog .mdc-text-field--outlined::after {
+	width: 0 !important;
+	height: 0 !important;
+}
+
+/* ############################## */
+
 .mdc-top-app-bar, .mdc-drawer, .mdc-dialog {user-select: none}
+
+.mdc-top-app-bar--fixed-adjust {height: 100vh}
 
 .list {min-height: 44.5px}
 
@@ -35,13 +48,13 @@
 #FD971F - YELLOW
 -----------------------------*/
 
-.cmd_alert {background-color: #A6E22E}
+.cmd_alert {background-color: #66D9EF}
 
 .cmd_if, .cmd_else, .cmd_for {background-color: #A6E22E}
 
 .cmd_comment {background-color: #BDC3C7}
 
-/* ########## */
+/* ########## CODE BLOCKS ########## */
 
 body.dragging, body.dragging * {cursor: move !important}
 

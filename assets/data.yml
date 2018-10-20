@@ -5,7 +5,7 @@
   - prm_type: input
     prm_label: Digite a mensagem
   cmd_codeblock: |
-    <li style="background-color: #66D9EF" class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_alert'>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_alert'>
       <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
       <i class="w3-right w3-margin-left material-icons" onclick='remove(this)'>close</i>
       <span class='visual'>Mostrar mensagem: cmd_parameter0</span>
@@ -18,7 +18,7 @@
   - prm_type: input
     prm_label: Digite a condição
   cmd_codeblock: |
-    <li style="background-color: #A6E22E" class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_if'>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_if'>
       <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
       <i class="w3-right w3-margin-left material-icons" onclick='remove(this)'>close</i>
       <span class='visual'>Se (cmd_parameter0) então...</span>
@@ -30,7 +30,7 @@
 - cmd_name: else
   cmd_description: Estrutura condicional
   cmd_codeblock: |
-    <li style="background-color: #A6E22E" class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_else'>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_else'>
       <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
       <i class="w3-right w3-margin-left material-icons" onclick='remove(this)'>close</i>
       <span class='visual'>Senão</span>
@@ -43,13 +43,13 @@
   cmd_description: Laço de repetição condicional
   cmd_parameters:
   - prm_type: input
-    prm_label: Digite a primeira condição
+    prm_label: Digite a declaração inicial
   - prm_type: input
-    prm_label: Digite a segunda condição
+    prm_label: Digite a condição principal
   - prm_type: input
-    prm_label: Digite a terceira condição
+    prm_label: Defina a consequencia da condição
   cmd_codeblock: |
-    <li style="background-color: #A6E22E" class='w3-card w3-padding w3-margin-bottom w3-round w3-left'>
+    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left'>
       <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
       <i class="w3-right w3-margin-left material-icons" onclick='remove(this)'>close</i>
       <span class='visual'>Para (<span class='visual'>cmd_parameter0; cmd_parameter1;

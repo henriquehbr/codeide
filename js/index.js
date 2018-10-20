@@ -1,7 +1,9 @@
-window.onload = function() {
-
+function initMDC() {
 	// Drawer
-	drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector(".mdc-drawer--temporary"));
+	drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector(".mdc-drawer"));
+}
+
+window.onload = function() {
 
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
@@ -21,26 +23,49 @@ window.onload = function() {
 	nightMode("verify");
 }
 
-function listLanguagesOnDrawer() {
+function appendLanguagesOnDrawer() {
 
 	// Empty the previous content of the language list
 	$("#languagesDrawer").html("");
 
 	// Get all data from data.yml
 	$.get("assets/data.yml", function(data) {
+
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
+
 		// For each data in json...
 		$.each(yamlData, function(i) {
-			// Append all the json commands on the sidebar from json
-			$("#languagesDrawer").append(`
-				<a onclick="addCommand('${yamlData[i].cmd_name}'); drawer.open = false" class="mdc-list-item mdc-list-item">
-					<span class="mdc-list-item__text">
-						<span class="mdc-list-item__primary-text"><span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span></span>
-						<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
-					</span>
-				</a>
-			`);
+
+			if (i == 0) {
+				// Append the first json command on the sidebar (mdc-list-item--selected)
+				$("#languagesDrawer").append(`
+					<a onclick="addCommand('${yamlData[i].cmd_name}');drawer.open=false" class="mdc-list-item mdc-list-item--activated" aria-selected="true">
+						<span class="mdc-list-item__text">
+							<span class="mdc-list-item__primary-text">
+								<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+							</span>
+							<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
+						</span>
+					</a>
+				`);
+			} else {
+				// Append all the json commands on the sidebar from json
+				$("#languagesDrawer").append(`
+					<a onclick="addCommand('${yamlData[i].cmd_name}');drawer.open=false" class="mdc-list-item" aria-selected="true">
+						<span class="mdc-list-item__text">
+							<span class="mdc-list-item__primary-text">
+								<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+							</span>
+							<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
+						</span>
+					</a>
+				`);
+			}
+
+			// Startup MDC components
+			initMDC();
+
 		})
 	})
 }
@@ -50,10 +75,13 @@ function addCommand(command) {
 
 	// Get all data from data.yml
 	$.get("assets/data.yml", function(data) {
+
 		// Convert YAML data into JSON
 		var yamlData = jsyaml.load(data);
+
 		// For each item in json...	
 		$.each(yamlData, function(i) {
+
 			// If data is equal the selected command
 			if (yamlData[i].cmd_name == command) {
 
@@ -62,49 +90,67 @@ function addCommand(command) {
 
 					// Append the dialog to the page
 					$("#pageContent").append(`
-						<aside id="addCommandDialog" class="mdc-dialog" role="alertdialog">
-							<div class="mdc-dialog__surface">
+						<div id="addCommandDialog"
+							class="mdc-dialog"
+							role="alertdialog"
+							aria-modal="true"
+							aria-labelledby="dialog-title"
+							aria-describedby="dialog-content">
 
-								<header class="mdc-dialog__header">
-									<h2 id="dialog-title" class="mdc-dialog__header__title">
-										Adicionar <span class='w3-codespan w3-round'>${yamlData[i].cmd_name}</span>
+							<div class="mdc-dialog__container">
+								<div class="mdc-dialog__surface">
+
+									<h2 class="mdc-dialog__title" id="dialog-title">
+										Adicionar <span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
 									</h2>
-								</header>
 
-								<section id="mdc-dialog-body" class="mdc-dialog__body"></section>
+									<div class="mdc-dialog__content" id="dialog-content"></div>
 
-								<footer class="mdc-dialog__footer">
-									<button id="btnOK" type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">OK</button>
-									<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">Cancelar</button>
-								</footer>
+									<footer class="mdc-dialog__actions">
+										<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
+										<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
+									</footer>
 
+								</div>
 							</div>
-							<div class="mdc-dialog__backdrop"></div>
-						</aside>
+							<div class="mdc-dialog__scrim"></div>
+						</div>
 					`);
 
 					// Remove all inputs on the dialog body
-					$("#mdc-dialog-body").html("");
+					$("#dialog-content").html("");
 
 					// For each parameter in array
 					$.each(yamlData[i].cmd_parameters, function(index) {
+
 						// Verify the parameter type
 						switch (yamlData[i].cmd_parameters[index].prm_type) {
 
 							// If parameter type is input...
 							case "input":
-								$("#mdc-dialog-body").append(`
-									<label>${yamlData[i].cmd_parameters[index].prm_label}</label>
-									<input class='w3-input w3-border w3-round required' type='text'>
+								$("#dialog-content").append(`
+									<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
+										<input type="text" id="tf-outlined" class="mdc-text-field__input required">
+										<label for="tf-outlined" class="mdc-floating-label">${yamlData[i].cmd_parameters[index].prm_label}</label>
+										<div class="mdc-notched-outline">
+											<svg>
+												<path class="mdc-notched-outline__path" />
+											</svg>
+										</div>
+										<div class="mdc-notched-outline__idle"></div>
+									</div>
 								`);
-								break;
+							break;
 
 						}
 					})
 
+					// Enable MDC on all inputs
+					mdc.autoInit(document, () => {});
+
 					// Turn the parameter dialog visible
-					var dialogAddCommand = new mdc.dialog.MDCDialog(document.querySelector("#addCommandDialog"));
-					dialogAddCommand.show();
+					var dialogAddCommand = mdc.dialog.MDCDialog.attachTo(document.querySelector("#addCommandDialog"));
+					dialogAddCommand.open();
 
 					// Focus on the first input on the dialog
 					$("#addCommandDialog input:text:visible:first").focus();
@@ -172,13 +218,16 @@ function sortable() {
 	// Transform every list into a sortable list
 	$("ul.list").sortable({
 		handle: "i.drag",
-		onDrag: function () {
-			list2code();
+		onDrag: function() {
 			if ($("li.placeholder")[0].getBoundingClientRect().top >= $(".scrollDiv")[0].getBoundingClientRect().top) {
 				window.scrollBy(0, 20);
 			} else if ($("li.placeholder")[0].getBoundingClientRect().top <= $(".mdc-top-app-bar")[0].getBoundingClientRect().height) {
 				window.scrollBy(0, -25);
 			}
+		},
+		onDrop: function($item, container, _super) {
+			list2code();
+			_super($item, container);
 		}
 	});
 
@@ -200,32 +249,36 @@ function changeViewMode() {
 }
 
 // Displays the "about" dialog
-function aboutDialog() {
+function displayAboutDialog() {
 	$("body").append(`
-		<aside id="aboutDialog" class="mdc-dialog" role="alertdialog">
-			<div class="mdc-dialog__surface">
+		<div id="aboutDialog"
+			class="mdc-dialog"
+			role="alertdialog"
+			aria-modal="true"
+			aria-labelledby="dialog-title"
+			aria-describedby="dialog-content">
 
-				<header class="mdc-dialog__header">
-					<h2 id="dialog-title" class="mdc-dialog__header__title">
-						Sobre o codeIDE
-					</h2>
-				</header>
+			<div class="mdc-dialog__container">
+				<div class="mdc-dialog__surface">
 
-				<section id="mdc-dialog-body" class="mdc-dialog__body">
-					Uma IDE web com interface arrasta e solta.<br><br>
-					<a href="https://github.com/henriquehbr/codeide" target="_blank">Visitar repositório no Github</a>
-				</section>
+					<h2 class="mdc-dialog__title" id="dialog-title">Sobre o codeIDE</h2>
 
-				<footer class="mdc-dialog__footer">
-					<button type="button" class="mdc-button mdc-dialog__footer__button mdc-dialog__footer__button--accept">OK</button>
-				</footer>
+					<div class="mdc-dialog__content" id="dialog-content">
+						Uma IDE web com interface arrasta e solta.<br><br>
+						<a href="https://github.com/henriquehbr/codeide" target="_blank">Visitar repositório no Github</a>
+					</div>
 
+					<footer class="mdc-dialog__actions">
+						<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
+					</footer>
+
+				</div>
 			</div>
-			<div class="mdc-dialog__backdrop"></div>
-		</aside>
+			<div class="mdc-dialog__scrim"></div>
+		</div>
 	`);
-	dialogAbout = new mdc.dialog.MDCDialog(document.querySelector("#aboutDialog"));
-	dialogAbout.show();
+	dialogAbout = mdc.dialog.MDCDialog.attachTo(document.querySelector("#aboutDialog"));
+	dialogAbout.open();
 }
 
 // Removes a specific element
@@ -301,4 +354,4 @@ sortable();
 
 list2code();
 
-listLanguagesOnDrawer();
+appendLanguagesOnDrawer();
