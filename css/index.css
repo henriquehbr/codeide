@@ -1,4 +1,9 @@
-@font-face {font-family: Atari; src: url("../assets/PressStart2P.ttf")}
+/* Prevent user from clicking on page elements before loading */
+html {pointer-events: none}
+
+a,
+a:hover,
+a:focus {text-decoration: none}
 
 #editArea, #codeOutput {padding: 10px}
 
@@ -8,8 +13,6 @@
 }
 
 #editArea *:not(.material-icons) {clear: both}
-
-#editArea {touch-action: none}
 
 /* FIX SIZE ISSUES WITH MDC TEXTFIELD (OUTLINED) */
 
@@ -28,7 +31,7 @@
 
 .list {min-height: 44.5px}
 
-.codeide-logo {font-family: Atari}
+.codeide-logo {font-family: "Press Start 2P"}
 
 .code {display: none}
 

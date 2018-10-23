@@ -1,23 +1,40 @@
-function initMDC() {
+function initMDCElements() {
+
+	// Enable MDC on all inputs
+	mdc.autoInit(document, () => {});
+
 	// Drawer
 	drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector(".mdc-drawer"));
+
+	// Menu
+	menu = new mdc.menu.MDCMenu(document.querySelector(".mdc-menu"));
 }
+
+$(document).ready(() => {
+	// Enable mouse/touch interactions after page load
+	$("html").css("pointer-events", "all");
+});
 
 window.onload = function() {
 
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
-		console.log("Your browser supports Web Storage");
+		console.log("[OK] Your browser supports Web Storage");
 	} else {
-		console.log("Your browser doesn't support Web Storage!");
+		console.log("[FAIL] Your browser doesn't support Web Storage!");
+	}
+
+	// Verify if browser supports File Reader API
+	if (window.File || window.FileReader || window.FileList || window.Blob) {
+		console.log("[OK] Your browser support File API's");
+	} else {
+		console.log("[FAIL] Your browser doesn't support File API's");
 	}
 
 	// Create "night_mode" on localStorage (if not exists)
 	if (localStorage.getItem("night_mode") == null) {
 		localStorage.setItem("night_mode", "false");
 	}
-
-	menu = new mdc.menu.MDCMenu(document.querySelector(".mdc-menu"));
 
 	// Verify if night mode is on or off
 	nightMode("verify");
@@ -64,7 +81,7 @@ function appendLanguagesOnDrawer() {
 			}
 
 			// Startup MDC components
-			initMDC();
+			initMDCElements();
 
 		})
 	})
@@ -140,13 +157,12 @@ function addCommand(command) {
 										<div class="mdc-notched-outline__idle"></div>
 									</div>
 								`);
-							break;
+								break;
 
 						}
 					})
 
-					// Enable MDC on all inputs
-					mdc.autoInit(document, () => {});
+					initMDCElements();
 
 					// Turn the parameter dialog visible
 					var dialogAddCommand = mdc.dialog.MDCDialog.attachTo(document.querySelector("#addCommandDialog"));
@@ -173,7 +189,7 @@ function addCommand(command) {
 
 							// If all inputs are validated...
 							if (index == $("#addCommandDialog input.required").length - 1) {
-								
+
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
 
@@ -188,10 +204,10 @@ function addCommand(command) {
 								$("#addCommandDialog").remove();
 
 								// Transform the list created list into a sortable list
-								sortable();
+								makeListsSortable();
 
 								// Convert the list items into indented text
-								list2code();
+								convertBlocksToCode();
 
 							}
 						})
@@ -202,10 +218,10 @@ function addCommand(command) {
 				}
 
 				// Transform the list created list into a sortable list
-				sortable();
+				makeListsSortable();
 
 				// Convert the list items into indented text
-				list2code();
+				convertBlocksToCode();
 
 			}
 		})
@@ -213,21 +229,23 @@ function addCommand(command) {
 }
 
 // Transform all the lists into sortable lists
-function sortable() {
+function makeListsSortable() {
 
 	// Transform every list into a sortable list
 	$("ul.list").sortable({
 		handle: "i.drag",
 		onDrag: function() {
+			$("html").css("overflow-y", "hidden");
 			if ($("li.placeholder")[0].getBoundingClientRect().top >= $(".scrollDiv")[0].getBoundingClientRect().top) {
 				window.scrollBy(0, 20);
 			} else if ($("li.placeholder")[0].getBoundingClientRect().top <= $(".mdc-top-app-bar")[0].getBoundingClientRect().height) {
-				window.scrollBy(0, -25);
+				window.scrollBy(0, -20);
 			}
 		},
 		onDrop: function($item, container, _super) {
-			list2code();
+			convertBlocksToCode();
 			_super($item, container);
+			$("html").css("overflow-y", "scroll");
 		}
 	});
 
@@ -240,7 +258,7 @@ function changeViewMode() {
 		$("#code").css("display", "none");
 		$("#list").css("display", "block");
 		$("#btnChangeView").text("view_list");
-	// Enable code mode
+		// Enable code mode
 	} else if ($("#btnChangeView").text() == "view_list") {
 		$("#list").css("display", "none");
 		$("#code").css("display", "block");
@@ -265,7 +283,12 @@ function displayAboutDialog() {
 
 					<div class="mdc-dialog__content" id="dialog-content">
 						Uma IDE web com interface arrasta e solta.<br><br>
-						<a href="https://github.com/henriquehbr/codeide" target="_blank">Visitar repositório no Github</a>
+						<a href="https://code101.com.br" target="_blank">
+							<span class="mdc-list-item__text">Visitar code101</span>
+						</a><br>
+						<a href="https://github.com/henriquehbr/codeide" target="_blank">
+							<span class="mdc-list-item__text">Visitar repositório no Github</span>
+						</a>
 					</div>
 
 					<footer class="mdc-dialog__actions">
@@ -282,9 +305,38 @@ function displayAboutDialog() {
 }
 
 // Removes a specific element
-function remove(element) {
-	$(element).parent().remove();
-	list2code();
+function removeBlock(element) {
+	$("body").append(`
+		<div class="mdc-snackbar mdc-snackbar--align-start" aria-live="assertive" aria-atomic="true" aria-hidden="true">
+			<div class="mdc-snackbar__text"></div>
+			<div class="mdc-snackbar__action-wrapper">
+				<button type="button" class="mdc-snackbar__action-button"></button>
+			</div>
+		</div>
+	`);
+
+	// Init snackbar
+	snackbar = mdc.snackbar.MDCSnackbar.attachTo(document.querySelector(".mdc-snackbar"));
+
+	// Save the removed block
+	var removedBlock = $(element).parent().detach();
+
+	const dataObj = {
+		message: "Bloco removido",
+		actionText: "Desfazer",
+		actionHandler: function() {
+			$("#editArea").append(removedBlock);
+			convertBlocksToCode();
+		}
+	};
+
+	snackbar.show(dataObj);
+	convertBlocksToCode();
+
+	// Event triggered when the snackbar hide
+	$(".mdc-snackbar").on("MDCSnackbar:hide", function() {
+		$(this).remove();
+	})
 }
 
 // Enable, disable or verify night mode state
@@ -296,30 +348,59 @@ function nightMode(action) {
 				localStorage.setItem("night_mode", "true");
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-			// Disable night mode
+				// Disable night mode
 			} else if (localStorage.getItem("night_mode") == "true") {
 				localStorage.setItem("night_mode", "false");
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
 			}
-		break;
+			break;
 
 		case "verify":
 			// Verify if night mode is enabled
 			if (localStorage.getItem("night_mode") == "true") {
 				$("body").css("background-color", "#323232");
 				$("#codeOutput").css("color", "white");
-			// Verify if night mode is disabled
+				// Verify if night mode is disabled
 			} else if (localStorage.getItem("night_mode") == "false") {
 				$("body").css("background-color", "transparent");
 				$("#codeOutput").css("color", "black");
 			}
-		break;
+			break;
 	}
 }
 
+// Save a file on the local filesystem
+function exportFile(fileContent) {
+	// Trim the fileContent specified argument and save
+	var blob = new Blob([fileContent.trim()], {
+		type: "text/plain;charset=utf-8"
+	});
+	saveAs(blob, "projeto.html");
+}
+
+function importFile() {
+	// Append the open file input on page
+	$("body").append(`
+		<input id="importFileInput" type="file" style="display: none">
+	`);
+
+	// Display the "Open File" dialog
+	$("#importFileInput").trigger("click");
+
+	// Whenever a file is opened
+	$("#importFileInput").on("change", function(e) {
+		var reader = new FileReader();
+		// Read the selected file
+		reader.onload = function(e) {
+			$("#editArea").html(e.target.result);
+		};
+		reader.readAsText(e.target.files[0]);
+	})
+}
+
 // Convert the list items into indented text
-function list2code() {
+function convertBlocksToCode() {
 
 	// Clear the code output
 	$("#codeOutput").html("");
@@ -350,8 +431,8 @@ function list2code() {
 
 changeViewMode();
 
-sortable();
+makeListsSortable();
 
-list2code();
+convertBlocksToCode();
 
 appendLanguagesOnDrawer();

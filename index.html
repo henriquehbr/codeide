@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<!-- META TAGS -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="keywords" content="code101, codeide, code, programming, learn">
+	<meta name="description" content="Ambiente de desenvolvimento integrado web e suporte a programação com uma interface arrasta e solta intuitiva"> <!-- 150 WORDS -->
+
+	<!-- OPENGRAPH META TAGS -->
+	<meta property="og:title" content="codeIDE">
+	<meta property="og:description" content="Ambiente de desenvolvimento integrado web e suporte a programação com uma interface arrasta e solta intuitiva">
+	<meta property="og:image" content="/">
+
+	<!-- PAGE TITLE -->
 	<title>codeIDE</title>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.40.1/dist/material-components-web.min.css">
+	<!-- FONTS -->
 	<link async href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 	<link async rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="css/w3pro.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
+	<!-- CDN CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.40.1/dist/material-components-web.min.css">
+
+	<!-- LOCAL CSS -->
+	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
@@ -19,7 +36,7 @@
 		<!-- DRAWER HEADER -->
 		<div class="mdc-drawer__header">
 			<h3 class="mdc-drawer__title codeide-logo">codeIDE</h3>
-			<h6 class="mdc-drawer__subtitle">Learn code, let's practice</h6>
+			<h6 class="mdc-drawer__subtitle">Learn code, <b>let's practice</b></h6>
 		</div>
 
 		<!-- DRAWER CONTENT -->
@@ -34,7 +51,7 @@
 	<div class="mdc-drawer-scrim"></div>
 
 	<!-- TOP APP BAR -->
-	<header class="mdc-top-app-bar w3-card">
+	<header class="mdc-top-app-bar mdc-top-app-bar--fixed w3-card">
 		<div class="mdc-top-app-bar__row">
 
 			<!-- CONTENT AT LEFT -->
@@ -60,11 +77,19 @@
 					<div class="mdc-menu mdc-menu-surface" tabindex="-1">
 						<ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
 
-							<!-- CODE101 -->
-							<li onclick="window.open('https://henriquehbr.github.io/code101/')" class="mdc-list-item" role="menuitem">
-								<i class="mdc-list-item__graphic material-icons">school</i>
-								<span class="mdc-list-item__text">code101</span>
+							<!-- EXPORT FILE -->
+							<li onclick="exportFile($('#editArea').html())" class="mdc-list-item" role="menuitem">
+								<i class="mdc-list-item__graphic material-icons">save</i>
+								<span class="mdc-list-item__text">Exportar arquivo</span>
 							</li>
+
+							<!-- IMPORT FILE -->
+							<li onclick="importFile()" class="mdc-list-item" role="menuitem">
+								<i class="mdc-list-item__graphic material-icons">folder_open</i>
+								<span class="mdc-list-item__text">Importar arquivo</span>
+							</li>
+
+							<li class="mdc-list-divider" role="separator"></li>
 
 							<!-- NIGHT MODE -->
 							<li id="nightModeBtn" onclick="nightMode('trigger')" class="mdc-list-item" role="menuitem">
@@ -104,9 +129,13 @@
 
 	<div class="scrollDiv"></div>
 
+	<!-- CDN SCRIPTS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/material-components-web@0.40.1/dist/material-components-web.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+
+	<!-- LOCAL SCRIPTS -->
 	<script src="js/sortable.js"></script>
 	<script src="js/index.js"></script>
 </body>
