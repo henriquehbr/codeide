@@ -282,10 +282,7 @@ function displayAboutDialog() {
 					<h2 class="mdc-dialog__title" id="dialog-title">Sobre o codeIDE</h2>
 
 					<div class="mdc-dialog__content" id="dialog-content">
-						Uma IDE web com interface arrasta e solta.<br><br>
-						<a href="https://code101.com.br" target="_blank">
-							<span class="mdc-list-item__text">Visitar code101</span>
-						</a><br>
+						Uma IDE web com uma interface arrasta e solta, desenvolvido para a 1º Mostra Ciêntifica do IFTO Campus Palmas<br><br>
 						<a href="https://github.com/henriquehbr/codeide" target="_blank">
 							<span class="mdc-list-item__text">Visitar repositório no Github</span>
 						</a>
