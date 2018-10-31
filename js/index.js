@@ -108,7 +108,7 @@ function addCommand(command) {
 				if (yamlData[i].cmd_parameters) {
 					displayDialog("addCommandDialog", `Adicionar <span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>`, null, `
 						<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
-						<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
+						<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
 					`);
 
 					// Remove all inputs on the dialog body
@@ -157,18 +157,19 @@ function addCommand(command) {
 							// If all inputs are validated...
 							if (index == $("#addCommandDialog input").length - 1) {
 
+								cmdCodeBlock = $(yamlData[i].cmd_codeblock);
+
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
+									// Replace the editable value on block with the respective array value
+									cmdCodeBlock.find(".block .editable").eq(i2).text(parameters[i2]);
 
-									// Replace the cmd_parameter + index with the respective array value
-									yamlData[i].cmd_codeblock = yamlData[i].cmd_codeblock.replace(new RegExp("cmd_parameter" + i2, "g"), parameters[i2]);
+									// Replace the editable value on code with the respective array value
+									cmdCodeBlock.find(".code .editable").eq(i2).text(parameters[i2]);
 								})
 
 								// Append the created code block
-								$("#editArea").append(yamlData[i].cmd_codeblock);
-
-								// Remove the dialog from the page
-								$("#addCommandDialog").remove();
+								$("#editArea").append(cmdCodeBlock);
 
 								// Transform the list created list into a sortable list
 								makeListsSortable();
@@ -341,6 +342,33 @@ function importFile() {
 	})
 }
 
+// Edit the value of a editable block element
+function editBlockValue(blockIndex, blockParent) {
+	displayDialog("editBlockValueDialog", "Editar valor", `
+		<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
+			<input autocomplete="off" type="text" id="tf-outlined" class="mdc-text-field__input">
+			<label for="tf-outlined" class="mdc-floating-label">Digite o novo valor</label>
+			<div class="mdc-notched-outline">
+				<svg>
+					<path class="mdc-notched-outline__path" />
+				</svg>
+			</div>
+			<div class="mdc-notched-outline__idle"></div>
+		</div>
+	`, `
+		<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
+		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
+	`);
+
+	$("#btnOK").on("click", function() {
+		$(blockParent).find(".block .editable").eq(blockIndex).text($("#editBlockValueDialog input").val());
+		$(blockParent).find(".code .editable").eq(blockIndex).text($("#editBlockValueDialog input").val());
+		convertBlocksToCode();
+	})
+
+	
+}
+
 // Generate a MDC dialog with the given arguments
 function displayDialog(dialogId, dialogTitle, dialogContent, dialogButtons) {
 
@@ -381,19 +409,19 @@ function convertBlocksToCode() {
 	// For each span with code class...
 	$.each($("span.code"), function() {
 
-		tabQty = [];
+		tabQuantity = [];
 		// If the item has any parents
 		if ($(this).parents("ul").length) {
 			// For each parent of the actual item...
 			$.each($(this).parents("ul"), function() {
-				// Adds a tab character to the tabQty array
-				tabQty.push("\t");
+				// Adds a tab character to the tabQuantity array
+				tabQuantity.push("\t");
 			});
 
-			// Remove one tab character from the tabQty array (bug fixing)
-			tabQty.splice(tabQty.indexOf("\t"), 1);
+			// Remove one tab character from the tabQuantity array (bug fixing)
+			tabQuantity.splice(tabQuantity.indexOf("\t"), 1);
 			// Show the indented line of code (with tabs)
-			$("#codeOutput").append(tabQty.join("") + $(this).text() + "\n");
+			$("#codeOutput").append(tabQuantity.join("") + $(this).text() + "\n");
 		} else {
 			// Show the indented line of code
 			$("#codeOutput").append($(this).text() + "\n");
@@ -403,5 +431,9 @@ function convertBlocksToCode() {
 
 	$(".close").on("click", function() {
 		removeBlock(this);
-	})
+	});
+
+	$(".editable").on("click", function() {
+		editBlockValue($(this).index(), $(this).closest(".commandBlock"));
+	});
 }

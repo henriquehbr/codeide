@@ -8,8 +8,8 @@
     <li class="commandBlock cmd_alert">
       <i class="material-icons drag">drag_indicator</i>
       <i class="material-icons close">close</i>
-      <span class="block">Mostrar mensagem: cmd_parameter0</span>
-      <span class="code">alert("cmd_parameter0");</span>
+      <span class="block">Mostrar mensagem: <span class="editable"></span></span>
+      <span class="code">alert("<span class="editable"></span>");</span>
     </li>
 
 - cmd_name: if
@@ -21,8 +21,8 @@
     <li class="commandBlock cmd_if">
       <i class="material-icons drag">drag_indicator</i>
       <i class="material-icons close">close</i>
-      <span class="block">Se (cmd_parameter0) então...</span>
-      <span class="code">if (cmd_parameter0) {</span>
+      <span class="block">Se (<span class="editable"></span>) então...</span>
+      <span class="code">if (<span class="editable"></span>) {</span>
       <ul></ul>
       <span class="code">}</span>
     </li>
@@ -52,8 +52,8 @@
     <li class="commandBlock cmd_for">
       <i class="material-icons drag">drag_indicator</i>
       <i class="material-icons close">close</i>
-      <span class="block">Para (<span class="block">cmd_parameter0; cmd_parameter1; cmd_parameter2</span>) então...</span>
-      <span class="code">for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
+      <span class="block">Para (<span class="editable"></span>; <span class="editable"></span>; <span class="editable"></span>) então...</span>
+      <span class="code">for (<span class="editable"></span>; <span class="editable"></span>; <span class="editable"></span>) {</span>
       <ul></ul>
       <span class="code">}</span>
     </li>
@@ -67,6 +67,6 @@
     <li class="commandBlock cmd_comment">
       <i class="material-icons drag">drag_indicator</i>
       <i class="material-icons close">close</i>
-      <span class="block">Comentário: cmd_parameter0</span>
-      <span class="code">// cmd_parameter0</span>
+      <span class="block">Comentário: <span class="editable">cmd_parameter0</span></span>
+      <span class="code">// <span class="editable"></span></span>
     </li>

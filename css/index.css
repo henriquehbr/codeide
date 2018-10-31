@@ -46,7 +46,7 @@ a:focus {text-decoration: none}
 #F92672 - RED
 #66D9EF - BLUE
 #A6E22E - GREEN
-#FD971F - YELLOW
+#FD971F - ORANGE
 -----------------------------*/
 
 .commandBlock {
@@ -67,6 +67,14 @@ a:focus {text-decoration: none}
 .close {
 	float: right !important;
 	margin-left: 16px !important;
+}
+
+.editable {
+	white-space: nowrap;
+	background-color: #FD971F;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+	padding: 4px 8px !important;
+	border-radius: 4px;
 }
 
 .cmd_alert {background-color: #66D9EF}
