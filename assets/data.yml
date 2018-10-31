@@ -5,11 +5,11 @@
   - prm_type: input
     prm_label: Digite a mensagem
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_alert'>
-      <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
-      <i class="w3-right w3-margin-left material-icons" onclick='removeBlock(this)'>close</i>
-      <span class='visual'>Mostrar mensagem: cmd_parameter0</span>
-      <span class='code'>alert("cmd_parameter0");</span>
+    <li class="commandBlock cmd_alert">
+      <i class="material-icons drag">drag_indicator</i>
+      <i class="material-icons close">close</i>
+      <span class="block">Mostrar mensagem: cmd_parameter0</span>
+      <span class="code">alert("cmd_parameter0");</span>
     </li>
 
 - cmd_name: if
@@ -18,25 +18,25 @@
   - prm_type: input
     prm_label: Digite a condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_if'>
-      <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
-      <i class="w3-right w3-margin-left material-icons" onclick='removeBlock(this)'>close</i>
-      <span class='visual'>Se (cmd_parameter0) então...</span>
-      <span class='code'>if (cmd_parameter0) {</span>
+    <li class="commandBlock cmd_if">
+      <i class="material-icons drag">drag_indicator</i>
+      <i class="material-icons close">close</i>
+      <span class="block">Se (cmd_parameter0) então...</span>
+      <span class="code">if (cmd_parameter0) {</span>
       <ul></ul>
-      <span class='code'>}</span>
+      <span class="code">}</span>
     </li>
 
 - cmd_name: else
   cmd_description: Estrutura condicional
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_else'>
-      <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
-      <i class="w3-right w3-margin-left material-icons" onclick='removeBlock(this)'>close</i>
-      <span class='visual'>Senão</span>
-      <span class='code'>else {</span>
+    <li class="commandBlock cmd_else">
+      <i class="material-icons drag">drag_indicator</i>
+      <i class="material-icons close">close</i>
+      <span class="block">Senão</span>
+      <span class="code">else {</span>
       <ul></ul>
-      <span class='code'>}</span>
+      <span class="code">}</span>
     </li>
 
 - cmd_name: for
@@ -49,14 +49,13 @@
   - prm_type: input
     prm_label: Defina a consequencia da condição
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left'>
-      <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
-      <i class="w3-right w3-margin-left material-icons" onclick='removeBlock(this)'>close</i>
-      <span class='visual'>Para (<span class='visual'>cmd_parameter0; cmd_parameter1;
-      cmd_parameter2</span>) então...</span>
-      <span class='code'>for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
+    <li class="commandBlock cmd_for">
+      <i class="material-icons drag">drag_indicator</i>
+      <i class="material-icons close">close</i>
+      <span class="block">Para (<span class="block">cmd_parameter0; cmd_parameter1; cmd_parameter2</span>) então...</span>
+      <span class="code">for (cmd_parameter0; cmd_parameter1; cmd_parameter2) {</span>
       <ul></ul>
-      <span class='code'>}</span>
+      <span class="code">}</span>
     </li>
 
 - cmd_name: Comentário
@@ -65,9 +64,9 @@
   - prm_type: input
     prm_label: Digite o comentário
   cmd_codeblock: |
-    <li class='w3-card w3-padding w3-margin-bottom w3-round w3-left cmd_comment'>
-      <i class="w3-left w3-margin-right material-icons drag">drag_indicator</i>
-      <i class="w3-right w3-margin-left material-icons" onclick='removeBlock(this)'>close</i>
-      <span class='visual'>Comentário: cmd_parameter0</span>
-      <span class='code'>// cmd_parameter0</span>
+    <li class="commandBlock cmd_comment">
+      <i class="material-icons drag">drag_indicator</i>
+      <i class="material-icons close">close</i>
+      <span class="block">Comentário: cmd_parameter0</span>
+      <span class="code">// cmd_parameter0</span>
     </li>

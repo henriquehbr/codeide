@@ -14,11 +14,11 @@ a:focus {text-decoration: none}
 
 #editArea *:not(.material-icons) {clear: both}
 
-/* FIX SIZE ISSUES WITH MDC TEXTFIELD (OUTLINED) */
+/* FIX SIZE ISSUES WITH MDC TEXTFIELD ON DIALOG (OUTLINED) */
 
-#addCommandDialog .mdc-text-field {width: 100%}
-#addCommandDialog .mdc-text-field--outlined::before,
-#addCommandDialog .mdc-text-field--outlined::after {
+.mdc-dialog .mdc-text-field {width: 100%}
+.mdc-dialog .mdc-text-field--outlined::before,
+.mdc-dialog .mdc-text-field--outlined::after {
 	width: 0 !important;
 	height: 0 !important;
 }
@@ -32,8 +32,6 @@ a:focus {text-decoration: none}
 .list {min-height: 44.5px}
 
 .codeide-logo {font-family: "Press Start 2P"}
-
-.code {display: none}
 
 .scrollDiv {
 	position: fixed;
@@ -50,6 +48,26 @@ a:focus {text-decoration: none}
 #A6E22E - GREEN
 #FD971F - YELLOW
 -----------------------------*/
+
+.commandBlock {
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+	padding: 8px 16px !important;
+	margin-bottom: 16px !important;
+	border-radius: 4px;
+	float: left !important;
+}
+
+.code {display: none}
+
+.drag {
+	float: left !important;
+	margin-right: 16px !important;
+}
+
+.close {
+	float: right !important;
+	margin-left: 16px !important;
+}
 
 .cmd_alert {background-color: #66D9EF}
 

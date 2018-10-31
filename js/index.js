@@ -13,9 +13,6 @@ function initMDCElements() {
 $(document).ready(() => {
 	// Enable mouse/touch interactions after page load
 	$("html").css("pointer-events", "all");
-});
-
-window.onload = function() {
 
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
@@ -38,9 +35,14 @@ window.onload = function() {
 
 	// Verify if night mode is on or off
 	nightMode("verify");
-}
 
-function appendLanguagesOnDrawer() {
+	changeViewMode();
+	makeListsSortable();
+	convertBlocksToCode();
+	appendCommandsOnDrawer();
+});
+
+function appendCommandsOnDrawer() {
 
 	// Empty the previous content of the language list
 	$("#languagesDrawer").html("");
@@ -104,38 +106,13 @@ function addCommand(command) {
 
 				// If parameters array exists...
 				if (yamlData[i].cmd_parameters) {
-
-					// Append the dialog to the page
-					$("#pageContent").append(`
-						<div id="addCommandDialog"
-							class="mdc-dialog"
-							role="alertdialog"
-							aria-modal="true"
-							aria-labelledby="dialog-title"
-							aria-describedby="dialog-content">
-
-							<div class="mdc-dialog__container">
-								<div class="mdc-dialog__surface">
-
-									<h2 class="mdc-dialog__title" id="dialog-title">
-										Adicionar <span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
-									</h2>
-
-									<div class="mdc-dialog__content" id="dialog-content"></div>
-
-									<footer class="mdc-dialog__actions">
-										<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
-										<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
-									</footer>
-
-								</div>
-							</div>
-							<div class="mdc-dialog__scrim"></div>
-						</div>
+					displayDialog("addCommandDialog", `Adicionar <span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>`, null, `
+						<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
+						<button onclick="$('#addCommandDialog').remove()" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
 					`);
 
 					// Remove all inputs on the dialog body
-					$("#dialog-content").html("");
+					$(".mdc-dialog__content").html("");
 
 					// For each parameter in array
 					$.each(yamlData[i].cmd_parameters, function(index) {
@@ -145,9 +122,9 @@ function addCommand(command) {
 
 							// If parameter type is input...
 							case "input":
-								$("#dialog-content").append(`
+								$(".mdc-dialog__content").append(`
 									<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
-										<input type="text" id="tf-outlined" class="mdc-text-field__input required">
+										<input autocomplete="off" type="text" id="tf-outlined" class="mdc-text-field__input">
 										<label for="tf-outlined" class="mdc-floating-label">${yamlData[i].cmd_parameters[index].prm_label}</label>
 										<div class="mdc-notched-outline">
 											<svg>
@@ -160,35 +137,25 @@ function addCommand(command) {
 								break;
 
 						}
-					})
+					});
 
 					initMDCElements();
 
-					// Turn the parameter dialog visible
-					var dialogAddCommand = mdc.dialog.MDCDialog.attachTo(document.querySelector("#addCommandDialog"));
-					dialogAddCommand.open();
-
 					// Focus on the first input on the dialog
-					$("#addCommandDialog input:text:visible:first").focus();
+					$("#addCommandDialog input:first").focus();
 
 					// OK button is clicked...
 					$("#btnOK").on("click", function() {
 						parameters = [];
 
 						// For each input on the parameter dialog...
-						$.each($("#addCommandDialog input.required"), function(index) {
-
-							// If there is any empty input...
-							if (!$("#addCommandDialog input.required").eq(index).val()) {
-								alert("Preencha todos os campos obrigatórios!");
-								return false;
-							}
+						$.each($("#addCommandDialog input"), function(index) {
 
 							// Insert the value of input to array
-							parameters.splice(index, 0, $("#addCommandDialog input.required").eq(index).val());
+							parameters.splice(index, 0, $("#addCommandDialog input").eq(index).val());
 
 							// If all inputs are validated...
-							if (index == $("#addCommandDialog input.required").length - 1) {
+							if (index == $("#addCommandDialog input").length - 1) {
 
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
@@ -268,37 +235,14 @@ function changeViewMode() {
 
 // Displays the "about" dialog
 function displayAboutDialog() {
-	$("body").append(`
-		<div id="aboutDialog"
-			class="mdc-dialog"
-			role="alertdialog"
-			aria-modal="true"
-			aria-labelledby="dialog-title"
-			aria-describedby="dialog-content">
-
-			<div class="mdc-dialog__container">
-				<div class="mdc-dialog__surface">
-
-					<h2 class="mdc-dialog__title" id="dialog-title">Sobre o codeIDE</h2>
-
-					<div class="mdc-dialog__content" id="dialog-content">
-						Uma IDE web com uma interface arrasta e solta, desenvolvido para a 1º Mostra Ciêntifica do IFTO Campus Palmas<br><br>
-						<a href="https://github.com/henriquehbr/codeide" target="_blank">
-							<span class="mdc-list-item__text">Visitar repositório no Github</span>
-						</a>
-					</div>
-
-					<footer class="mdc-dialog__actions">
-						<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
-					</footer>
-
-				</div>
-			</div>
-			<div class="mdc-dialog__scrim"></div>
-		</div>
+	displayDialog("aboutDialog", "Sobre o codeIDE", `
+		Uma IDE web com uma interface arrasta e solta, desenvolvido para a 1º Mostra Ciêntifica do IFTO Campus Palmas<br><br>
+		<a href="https://github.com/henriquehbr/codeide" target="_blank">
+			<span class="mdc-list-item__text">Visitar repositório no Github</span>
+		</a>
+	`, `
+		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
 	`);
-	dialogAbout = mdc.dialog.MDCDialog.attachTo(document.querySelector("#aboutDialog"));
-	dialogAbout.open();
 }
 
 // Removes a specific element
@@ -376,6 +320,7 @@ function exportFile(fileContent) {
 	saveAs(blob, "projeto.html");
 }
 
+// Open a file from the local filesystem
 function importFile() {
 	// Append the open file input on page
 	$("body").append(`
@@ -394,6 +339,37 @@ function importFile() {
 		};
 		reader.readAsText(e.target.files[0]);
 	})
+}
+
+// Generate a MDC dialog with the given arguments
+function displayDialog(dialogId, dialogTitle, dialogContent, dialogButtons) {
+
+	$("body").append(`
+		<div id="${dialogId}" class="mdc-dialog" role="alertdialog" aria-modal="true">
+			<div class="mdc-dialog__container">
+				<div class="mdc-dialog__surface">
+					<h2 class="mdc-dialog__title">${dialogTitle}</h2>
+					<div class="mdc-dialog__content">
+						${dialogContent}
+					</div>
+					<footer class="mdc-dialog__actions">
+						${dialogButtons}
+					</footer>
+				</div>
+			</div>
+			<div class="mdc-dialog__scrim"></div>
+		</div>
+	`);
+
+	initMDCElements();
+
+	dialog = new mdc.dialog.MDCDialog(document.querySelector(`#${dialogId}`));
+	dialog.open();
+
+	// Event triggered when the dialog is closed
+	$(`#${dialogId}`).on("MDCDialog:closed", function() {
+		$(`#${dialogId}`).remove();
+	});
 }
 
 // Convert the list items into indented text
@@ -424,12 +400,8 @@ function convertBlocksToCode() {
 		}
 
 	});
+
+	$(".close").on("click", function() {
+		removeBlock(this);
+	})
 }
-
-changeViewMode();
-
-makeListsSortable();
-
-convertBlocksToCode();
-
-appendLanguagesOnDrawer();
