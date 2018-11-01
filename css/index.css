@@ -29,6 +29,8 @@ a:focus {text-decoration: none}
 
 .mdc-top-app-bar--fixed-adjust {height: 100vh}
 
+#list {overflow: auto}
+
 .list {min-height: 44.5px}
 
 .codeide-logo {font-family: "Press Start 2P"}

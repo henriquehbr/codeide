@@ -213,7 +213,7 @@ function makeListsSortable() {
 		onDrop: function($item, container, _super) {
 			convertBlocksToCode();
 			_super($item, container);
-			$("html").css("overflow-y", "scroll");
+			$("html").css("overflow-y", "auto");
 		}
 	});
 
@@ -234,7 +234,6 @@ function changeViewMode() {
 	}
 }
 
-// Displays the "about" dialog
 function displayAboutDialog() {
 	displayDialog("aboutDialog", "Sobre o codeIDE", `
 		Uma IDE web com uma interface arrasta e solta, desenvolvido para a 1º Mostra Ciêntifica do IFTO Campus Palmas<br><br>
@@ -312,7 +311,6 @@ function nightMode(action) {
 	}
 }
 
-// Save a file on the local filesystem
 function exportFile(fileContent) {
 	// Trim the fileContent specified argument and save
 	var blob = new Blob([fileContent.trim()], {
@@ -321,7 +319,6 @@ function exportFile(fileContent) {
 	saveAs(blob, "projeto.html");
 }
 
-// Open a file from the local filesystem
 function importFile() {
 	// Append the open file input on page
 	$("body").append(`
@@ -337,16 +334,17 @@ function importFile() {
 		// Read the selected file
 		reader.onload = function(e) {
 			$("#editArea").html(e.target.result);
+			convertBlocksToCode();
 		};
 		reader.readAsText(e.target.files[0]);
-	})
+	});
 }
 
 // Edit the value of a editable block element
-function editBlockValue(blockIndex, blockParent) {
+function editBlockValue(blockToEdit) {
 	displayDialog("editBlockValueDialog", "Editar valor", `
 		<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
-			<input autocomplete="off" type="text" id="tf-outlined" class="mdc-text-field__input">
+			<input value="${$(blockToEdit).text()}" autocomplete="off" type="text" id="tf-outlined" class="mdc-text-field__input">
 			<label for="tf-outlined" class="mdc-floating-label">Digite o novo valor</label>
 			<div class="mdc-notched-outline">
 				<svg>
@@ -361,8 +359,8 @@ function editBlockValue(blockIndex, blockParent) {
 	`);
 
 	$("#btnOK").on("click", function() {
-		$(blockParent).find(".block .editable").eq(blockIndex).text($("#editBlockValueDialog input").val());
-		$(blockParent).find(".code .editable").eq(blockIndex).text($("#editBlockValueDialog input").val());
+		$(blockToEdit).closest(".commandBlock").find(".block .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
+		$(blockToEdit).closest(".commandBlock").find(".code .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
 		convertBlocksToCode();
 	})
 
@@ -429,11 +427,15 @@ function convertBlocksToCode() {
 
 	});
 
+	$("pre").each(function(i, block) {
+		hljs.highlightBlock(block);
+	});
+
 	$(".close").on("click", function() {
 		removeBlock(this);
 	});
 
 	$(".editable").on("click", function() {
-		editBlockValue($(this).index(), $(this).closest(".commandBlock"));
+		editBlockValue($(this));
 	});
 }
