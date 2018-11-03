@@ -73,17 +73,28 @@ a:focus {text-decoration: none}
 
 .editable {
 	white-space: nowrap;
-	background-color: #FD971F;
+	border: 1px solid #DA7C0C;
+	background-image: linear-gradient(to bottom, #FAA51A, #F47A20);
 	box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
 	padding: 4px 8px !important;
 	border-radius: 4px;
 }
 
-.cmd_alert {background-color: #66D9EF}
+.cmd_alert {
+	border: 1px solid #0073BB;
+	background-color: #1B9DEC;
+	background-image: linear-gradient(to bottom, #1DA7EE, #178EE9);
+}
 
-.cmd_if, .cmd_else, .cmd_for {background-color: #A6E22E}
+.cmd_if, .cmd_else, .cmd_for {
+	border: solid 1px #538312;
+	background-image: linear-gradient(to bottom, #7DB72F, #4E7D0E);
+}
 
-.cmd_comment {background-color: #BDC3C7}
+.cmd_comment {
+	border: solid 1px #555;
+	background-image: linear-gradient(to bottom, #888, #575757);
+}
 
 /* ########## CODE BLOCKS ########## */
 
