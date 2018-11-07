@@ -67,6 +67,6 @@
     <li class="commandBlock cmd_comment">
       <i class="material-icons drag">drag_indicator</i>
       <i class="material-icons close">close</i>
-      <span class="block">Comentário: <span class="editable">cmd_parameter0</span></span>
+      <span class="block">Comentário: <span class="editable"></span></span>
       <span class="code">// <span class="editable"></span></span>
     </li>

@@ -11,8 +11,12 @@ function initMDCElements() {
 }
 
 $(document).ready(() => {
-	// Enable mouse/touch interactions after page load
-	$("html").css("pointer-events", "all");
+	/* Turn page visible and enable user interaction after loading page */
+	$("html").css({
+		"pointer-events": "all",
+		"visibility": "visible",
+		"opacity": "1"
+	});
 
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
@@ -51,32 +55,32 @@ function appendCommandsOnDrawer() {
 	$.get("assets/data.yml", function(data) {
 
 		// Convert YAML data into JSON
-		var yamlData = jsyaml.load(data);
+		var convertYamlToJson = jsyaml.load(data);
 
 		// For each data in json...
-		$.each(yamlData, function(i) {
+		$.each(convertYamlToJson, function(i) {
 
 			if (i == 0) {
 				// Append the first json command on the sidebar (mdc-list-item--selected)
 				$("#languagesDrawer").append(`
-					<a onclick="addCommand('${yamlData[i].cmd_name}');drawer.open=false" class="mdc-list-item mdc-list-item--activated" aria-selected="true">
+					<a onclick="addCommand('${convertYamlToJson[i].cmd_name}');drawer.open=false" class="mdc-list-item mdc-list-item--activated" aria-selected="true">
 						<span class="mdc-list-item__text">
 							<span class="mdc-list-item__primary-text">
-								<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+								<span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>
 							</span>
-							<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
+							<span class="mdc-list-item__secondary-text">${convertYamlToJson[i].cmd_description}</span>
 						</span>
 					</a>
 				`);
 			} else {
 				// Append all the json commands on the sidebar from json
 				$("#languagesDrawer").append(`
-					<a onclick="addCommand('${yamlData[i].cmd_name}');drawer.open=false" class="mdc-list-item" aria-selected="true">
+					<a onclick="addCommand('${convertYamlToJson[i].cmd_name}');drawer.open=false" class="mdc-list-item" aria-selected="true">
 						<span class="mdc-list-item__text">
 							<span class="mdc-list-item__primary-text">
-								<span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>
+								<span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>
 							</span>
-							<span class="mdc-list-item__secondary-text">${yamlData[i].cmd_description}</span>
+							<span class="mdc-list-item__secondary-text">${convertYamlToJson[i].cmd_description}</span>
 						</span>
 					</a>
 				`);
@@ -96,17 +100,17 @@ function addCommand(command) {
 	$.get("assets/data.yml", function(data) {
 
 		// Convert YAML data into JSON
-		var yamlData = jsyaml.load(data);
+		var convertYamlToJson = jsyaml.load(data);
 
 		// For each item in json...	
-		$.each(yamlData, function(i) {
+		$.each(convertYamlToJson, function(i) {
 
 			// If data is equal the selected command
-			if (yamlData[i].cmd_name == command) {
+			if (convertYamlToJson[i].cmd_name == command) {
 
 				// If parameters array exists...
-				if (yamlData[i].cmd_parameters) {
-					displayDialog("addCommandDialog", `Adicionar <span class="w3-codespan w3-round">${yamlData[i].cmd_name}</span>`, null, `
+				if (convertYamlToJson[i].cmd_parameters) {
+					displayDialog("addCommandDialog", `Adicionar <span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>`, null, `
 						<button id="btnOK" type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
 						<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
 					`);
@@ -115,17 +119,17 @@ function addCommand(command) {
 					$(".mdc-dialog__content").html("");
 
 					// For each parameter in array
-					$.each(yamlData[i].cmd_parameters, function(index) {
+					$.each(convertYamlToJson[i].cmd_parameters, function(index) {
 
 						// Verify the parameter type
-						switch (yamlData[i].cmd_parameters[index].prm_type) {
+						switch (convertYamlToJson[i].cmd_parameters[index].prm_type) {
 
 							// If parameter type is input...
 							case "input":
 								$(".mdc-dialog__content").append(`
 									<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
 										<input autocomplete="off" type="text" id="tf-outlined" class="mdc-text-field__input">
-										<label for="tf-outlined" class="mdc-floating-label">${yamlData[i].cmd_parameters[index].prm_label}</label>
+										<label for="tf-outlined" class="mdc-floating-label">${convertYamlToJson[i].cmd_parameters[index].prm_label}</label>
 										<div class="mdc-notched-outline">
 											<svg>
 												<path class="mdc-notched-outline__path" />
@@ -157,7 +161,7 @@ function addCommand(command) {
 							// If all inputs are validated...
 							if (index == $("#addCommandDialog input").length - 1) {
 
-								cmdCodeBlock = $(yamlData[i].cmd_codeblock);
+								cmdCodeBlock = $(convertYamlToJson[i].cmd_codeblock);
 
 								// For each parameter in array...
 								$.each(parameters, function(i2) {
@@ -182,7 +186,7 @@ function addCommand(command) {
 					})
 
 				} else {
-					$("#editArea").append(yamlData[i].cmd_codeblock);
+					$("#editArea").append(convertYamlToJson[i].cmd_codeblock);
 				}
 
 				// Transform the list created list into a sortable list
@@ -313,7 +317,7 @@ function nightMode(action) {
 
 function exportFile(fileContent) {
 	// Trim the fileContent specified argument and save
-	var blob = new Blob([fileContent.trim()], {
+	var blob = new Blob([fileContent.trim().replace(/\n+\s+/g, "")], {
 		type: "text/plain;charset=utf-8"
 	});
 	saveAs(blob, "projeto.html");
@@ -331,10 +335,17 @@ function importFile() {
 	// Whenever a file is opened
 	$("#importFileInput").on("change", function(e) {
 		var reader = new FileReader();
+
 		// Read the selected file
 		reader.onload = function(e) {
-			$("#editArea").html(e.target.result);
+
+			// Remove all "script" tags from the file
+			$("#editArea").html($.parseHTML(e.target.result));
+
+			// Remove all inline event handlers from code blocks
+			$("#editArea *").removeAttr("onclick onchange onmouseover onmouseout onkeydown onload");
 			convertBlocksToCode();
+
 		};
 		reader.readAsText(e.target.files[0]);
 	});
@@ -431,10 +442,12 @@ function convertBlocksToCode() {
 		hljs.highlightBlock(block);
 	});
 
+	// Close button (event listener)
 	$(".close").on("click", function() {
 		removeBlock(this);
 	});
 
+	// Editable field (event listener)
 	$(".editable").on("click", function() {
 		editBlockValue($(this));
 	});

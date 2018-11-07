@@ -1,5 +1,9 @@
-/* Prevent user from clicking on page elements before loading */
-html {pointer-events: none}
+/* Turn page invisible and disable user interaction before loading page */
+html {
+	pointer-events: none;
+	visibility: hidden;
+	opacity: 0;
+}
 
 a,
 a:hover,
@@ -27,9 +31,10 @@ a:focus {text-decoration: none}
 
 .mdc-top-app-bar, .mdc-drawer, .mdc-dialog {user-select: none}
 
-.mdc-top-app-bar--fixed-adjust {height: 100vh}
-
-#list {overflow: auto}
+.mdc-top-app-bar--fixed-adjust {
+	height: 100vh;
+	overflow: auto;
+}
 
 .list {min-height: 44.5px}
 
