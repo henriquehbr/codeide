@@ -16,6 +16,11 @@ a:focus {text-decoration: none}
 	font-size: 18px;
 }
 
+#notFoundText {
+	text-align: center;
+	margin-top: 0;
+}
+
 #editArea *:not(.material-icons) {clear: both}
 
 /* FIX SIZE ISSUES WITH MDC TEXTFIELD ON DIALOG (OUTLINED) */
@@ -34,6 +39,8 @@ a:focus {text-decoration: none}
 .mdc-top-app-bar--fixed-adjust {height: 100vh}
 
 #list {overflow: auto}
+
+#code {overflow: auto}
 
 .list {min-height: 44.5px}
 

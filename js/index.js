@@ -18,6 +18,14 @@ $(document).ready(() => {
 	// Verify if browser supports Web Storage
 	if (typeof(Storage) !== "undefined") {
 		console.log("[OK] Your browser supports Web Storage");
+
+		// Create "night_mode" on localStorage (if not exists)
+		if (localStorage.getItem("night_mode") == null) {
+			localStorage.setItem("night_mode", "false");
+		}
+
+		// Verify if night mode is on or off
+		nightMode("verify");
 	} else {
 		console.log("[FAIL] Your browser doesn't support Web Storage!");
 	}
@@ -28,14 +36,6 @@ $(document).ready(() => {
 	} else {
 		console.log("[FAIL] Your browser doesn't support File API's");
 	}
-
-	// Create "night_mode" on localStorage (if not exists)
-	if (localStorage.getItem("night_mode") == null) {
-		localStorage.setItem("night_mode", "false");
-	}
-
-	// Verify if night mode is on or off
-	nightMode("verify");
 
 	changeViewMode();
 	makeListsSortable();
@@ -120,7 +120,7 @@ function addCommand(command) {
 
 									// Replace the editable value on code with the respective array value
 									cmdCodeBlock.find(".code .editable").eq(i2).text(parameters[i2]);
-								})
+								});
 
 								// Append the created code block
 								$("#editArea").append(cmdCodeBlock);
@@ -132,8 +132,8 @@ function addCommand(command) {
 								convertBlocksToCode();
 
 							}
-						})
-					})
+						});
+					});
 
 				} else {
 					$("#editArea").append(convertYamlToJson[i].cmd_codeblock);
@@ -329,6 +329,16 @@ function editBlockValue(blockToEdit) {
 
 function displaySelectCommandDialog() {
 	displayDialog("selectCommandDialog", "Adicionar comando", `
+		<div class="mdc-text-field mdc-text-field--outlined w3-margin-top" data-mdc-auto-init="MDCTextField">
+			<input autocomplete="off" oninput="searchCommands(this, $('#selectCommandDialog .mdc-list'))" type="text" id="tf-outlined" class="mdc-text-field__input">
+			<label for="tf-outlined" class="mdc-floating-label">Pesquisar comando</label>
+			<div class="mdc-notched-outline">
+				<svg>
+					<path class="mdc-notched-outline__path" />
+				</svg>
+			</div>
+			<div class="mdc-notched-outline__idle"></div>
+		</div>
 		<ul class="mdc-list mdc-list--two-line" aria-orientation="vertical"></ul>
 		`, `
 		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
@@ -360,6 +370,23 @@ function displaySelectCommandDialog() {
 
 		});
 	});
+}
+
+function searchCommands(input, listItem) {
+	$.each($(listItem).children(), function(i) {
+		$(this).find(".mdc-list-item__text .mdc-list-item__primary-text").filter(function() {
+			$(this).parent().parent().toggle($(this).text().toLowerCase().indexOf($(input).val().toLowerCase()) > -1);
+		});
+	});
+
+	if ($(listItem).children(":visible").length == 0) {
+		$("#notFoundText").remove();
+		$(listItem).parent().append(`
+			<p id="notFoundText">Nenhum resultado encontrado</p>
+		`);
+	} else {
+		$("#notFoundText").remove();
+	}
 }
 
 // Generate a MDC dialog with the given arguments
