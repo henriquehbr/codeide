@@ -29,12 +29,11 @@ a:focus {text-decoration: none}
 
 /* ############################## */
 
-.mdc-top-app-bar, .mdc-drawer, .mdc-dialog {user-select: none}
+.mdc-top-app-bar, .mdc-dialog {user-select: none}
 
-.mdc-top-app-bar--fixed-adjust {
-	height: 100vh;
-	overflow: auto;
-}
+.mdc-top-app-bar--fixed-adjust {height: 100vh}
+
+#list {overflow: auto}
 
 .list {min-height: 44.5px}
 

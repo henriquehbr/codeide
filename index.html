@@ -5,12 +5,12 @@
 	<!-- META TAGS -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content="code101, codeide, code, programming, learn">
-	<meta name="description" content="Ambiente de desenvolvimento integrado web e suporte a programação com uma interface arrasta e solta intuitiva"> <!-- 150 WORDS -->
+	<meta name="keywords" content="code101, codeide, code, programming, programação, learn, aprender">
+	<meta name="description" content="Ambiente de desenvolvimento integrado web com suporte a programação arrasta e solta por blocos"> <!-- 150 WORDS -->
 
 	<!-- OPENGRAPH META TAGS -->
 	<meta property="og:title" content="codeIDE">
-	<meta property="og:description" content="Ambiente de desenvolvimento integrado web e suporte a programação com uma interface arrasta e solta intuitiva">
+	<meta property="og:description" content="Ambiente de desenvolvimento integrado web com suporte a programação arrasta e solta por blocos">
 	<meta property="og:image" content="/">
 
 	<!-- PAGE TITLE -->
@@ -22,7 +22,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
 	<!-- CSS (CDN) -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.41.0/dist/material-components-web.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/material-components-web@0.41.1/dist/material-components-web.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 
 	<!-- CSS (LOCAL) -->
 	<link rel="stylesheet" href="css/w3.css">
@@ -31,36 +32,12 @@
 </head>
 <body>
 
-	<!-- DRAWER -->
-	<aside class="mdc-drawer mdc-drawer--modal" data-mdc-auto-init="MDCDrawer">
-
-		<!-- DRAWER HEADER -->
-		<div class="mdc-drawer__header">
-			<h3 class="mdc-drawer__title codeide-logo">codeIDE</h3>
-			<h6 class="mdc-drawer__subtitle">Learn code, <b>let's practice</b></h6>
-		</div>
-
-		<!-- DRAWER CONTENT -->
-		<div class="mdc-drawer__content">
-
-			<!-- LANGUAGES LIST -->
-			<nav id="languagesDrawer" class="mdc-list mdc-list--two-line"></nav>
-
-		</div>
-	</aside>
-
-	<!-- DRAWER OVERLAY -->
-	<div class="mdc-drawer-scrim"></div>
-
 	<!-- TOP APP BAR -->
 	<header class="mdc-top-app-bar mdc-top-app-bar--fixed w3-card">
 		<div class="mdc-top-app-bar__row">
 
 			<!-- CONTENT AT LEFT -->
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-
-				<!-- DRAWER BUTTON -->
-				<a id="drawerBtn" onclick="drawer.open = true" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
 
 				<!-- APP TITLE -->
 				<span class="mdc-top-app-bar__title codeide-logo">codeIDE</span>
@@ -70,8 +47,11 @@
 			<!-- CONTENT AT RIGHT -->
 			<section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
 
+				<!-- ADD COMMAND -->
+				<a class="mdc-icon-button material-icons" onclick="displaySelectCommandDialog()">add</a>
+
 				<!-- CHANGE VIEW MODE -->
-				<button class="mdc-icon-button material-icons" id="btnChangeView" onclick="changeViewMode()">code</button>
+				<a class="mdc-icon-button material-icons" id="btnChangeView" onclick="changeViewMode()">code</a>
 
 				<!-- SIDE MENU -->
 				<div class="mdc-menu-surface--anchor">
@@ -141,7 +121,7 @@
 
 	<!-- JS (CDN) -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/material-components-web@0.41.0/dist/material-components-web.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/material-components-web@0.41.1/dist/material-components-web.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.12.0/js-yaml.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>

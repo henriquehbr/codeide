@@ -3,9 +3,6 @@ function initMDCElements() {
 	// Enable MDC on all inputs
 	mdc.autoInit(document, () => {});
 
-	// Drawer
-	drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector(".mdc-drawer"));
-
 	// Menu
 	menu = new mdc.menu.MDCMenu(document.querySelector(".mdc-menu"));
 }
@@ -43,55 +40,8 @@ $(document).ready(() => {
 	changeViewMode();
 	makeListsSortable();
 	convertBlocksToCode();
-	appendCommandsOnDrawer();
+	initMDCElements();
 });
-
-function appendCommandsOnDrawer() {
-
-	// Empty the previous content of the language list
-	$("#languagesDrawer").html("");
-
-	// Get all data from data.yml
-	$.get("assets/data.yml", function(data) {
-
-		// Convert YAML data into JSON
-		var convertYamlToJson = jsyaml.load(data);
-
-		// For each data in json...
-		$.each(convertYamlToJson, function(i) {
-
-			if (i == 0) {
-				// Append the first json command on the sidebar (mdc-list-item--selected)
-				$("#languagesDrawer").append(`
-					<a onclick="addCommand('${convertYamlToJson[i].cmd_name}');drawer.open=false" class="mdc-list-item mdc-list-item--activated" aria-selected="true">
-						<span class="mdc-list-item__text">
-							<span class="mdc-list-item__primary-text">
-								<span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>
-							</span>
-							<span class="mdc-list-item__secondary-text">${convertYamlToJson[i].cmd_description}</span>
-						</span>
-					</a>
-				`);
-			} else {
-				// Append all the json commands on the sidebar from json
-				$("#languagesDrawer").append(`
-					<a onclick="addCommand('${convertYamlToJson[i].cmd_name}');drawer.open=false" class="mdc-list-item" aria-selected="true">
-						<span class="mdc-list-item__text">
-							<span class="mdc-list-item__primary-text">
-								<span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>
-							</span>
-							<span class="mdc-list-item__secondary-text">${convertYamlToJson[i].cmd_description}</span>
-						</span>
-					</a>
-				`);
-			}
-
-			// Startup MDC components
-			initMDCElements();
-
-		})
-	})
-}
 
 // Add a command from data.yml
 function addCommand(command) {
@@ -196,13 +146,12 @@ function addCommand(command) {
 				convertBlocksToCode();
 
 			}
-		})
-	})
+		});
+	});
 }
 
 // Transform all the lists into sortable lists
 function makeListsSortable() {
-
 	// Transform every list into a sortable list
 	$("ul.list").sortable({
 		handle: "i.drag",
@@ -220,10 +169,9 @@ function makeListsSortable() {
 			$("html").css("overflow-y", "auto");
 		}
 	});
-
 }
 
-// Switch between the list and code
+// Switch between blocks and code
 function changeViewMode() {
 	// Enable list mode
 	if ($("#btnChangeView").text() == "code") {
@@ -242,7 +190,10 @@ function displayAboutDialog() {
 	displayDialog("aboutDialog", "Sobre o codeIDE", `
 		Uma IDE web com uma interface arrasta e solta, desenvolvido para a 1º Mostra Ciêntifica do IFTO Campus Palmas<br><br>
 		<a href="https://github.com/henriquehbr/codeide" target="_blank">
-			<span class="mdc-list-item__text">Visitar repositório no Github</span>
+			<i class="fab fa-github"></i><span class="mdc-list-item__text"> Visitar repositório no Github</span>
+		</a><br>
+		<a href="https://patreon.com/henriquehbr" target="_blank">
+			<i class="fab fa-patreon"></i><span class="mdc-list-item__text"> Faça uma doação no Patreon</span>
 		</a>
 	`, `
 		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="yes">OK</button>
@@ -281,7 +232,7 @@ function removeBlock(element) {
 	// Event triggered when the snackbar hide
 	$(".mdc-snackbar").on("MDCSnackbar:hide", function() {
 		$(this).remove();
-	})
+	});
 }
 
 // Enable, disable or verify night mode state
@@ -373,9 +324,42 @@ function editBlockValue(blockToEdit) {
 		$(blockToEdit).closest(".commandBlock").find(".block .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
 		$(blockToEdit).closest(".commandBlock").find(".code .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
 		convertBlocksToCode();
-	})
+	});
+}
 
-	
+function displaySelectCommandDialog() {
+	displayDialog("selectCommandDialog", "Adicionar comando", `
+		<ul class="mdc-list mdc-list--two-line" aria-orientation="vertical"></ul>
+		`, `
+		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
+	`);
+
+	// Get all data from data.yml
+	$.get("assets/data.yml", function(data) {
+
+		// Convert YAML data into JSON
+		var convertYamlToJson = jsyaml.load(data);
+
+		// For each command in json...
+		$.each(convertYamlToJson, function(i) {
+
+			// Append all the json commands on the sidebar from json
+			$("#selectCommandDialog .mdc-list").append(`
+				<li onclick="addCommand('${convertYamlToJson[i].cmd_name}');dialog.close()" class="mdc-list-item">
+					<span class="mdc-list-item__text">
+						<span class="mdc-list-item__primary-text">
+							<span class="w3-codespan w3-round">${convertYamlToJson[i].cmd_name}</span>
+						</span>
+						<span class="mdc-list-item__secondary-text">${convertYamlToJson[i].cmd_description}</span>
+					</span>
+				</li>
+			`);
+
+			// Startup MDC components
+			initMDCElements();
+
+		});
+	});
 }
 
 // Generate a MDC dialog with the given arguments
@@ -409,7 +393,6 @@ function displayDialog(dialogId, dialogTitle, dialogContent, dialogButtons) {
 	});
 }
 
-// Convert the list items into indented text
 function convertBlocksToCode() {
 
 	// Clear the code output
