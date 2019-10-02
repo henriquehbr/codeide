@@ -47,13 +47,13 @@ $(document).ready(() => {
 function addCommand(command) {
 
 	// Get all data from data.yml
-	$.get("assets/data.yml", function(data) {
+	$.get("assets/data.yml", (data) => {
 
 		// Convert YAML data into JSON
 		var convertYamlToJson = jsyaml.load(data);
 
 		// For each item in json...	
-		$.each(convertYamlToJson, function(i) {
+		$.each(convertYamlToJson, (i) => {
 
 			// If data is equal the selected command
 			if (convertYamlToJson[i].cmd_name == command) {
@@ -69,7 +69,7 @@ function addCommand(command) {
 					$(".mdc-dialog__content").html("");
 
 					// For each parameter in array
-					$.each(convertYamlToJson[i].cmd_parameters, function(index) {
+					$.each(convertYamlToJson[i].cmd_parameters, (index) => {
 
 						// Verify the parameter type
 						switch (convertYamlToJson[i].cmd_parameters[index].prm_type) {
@@ -99,11 +99,11 @@ function addCommand(command) {
 					$("#addCommandDialog input:first").focus();
 
 					// OK button is clicked...
-					$("#btnOK").on("click", function() {
+					$("#btnOK").on("click", () => {
 						parameters = [];
 
 						// For each input on the parameter dialog...
-						$.each($("#addCommandDialog input"), function(index) {
+						$.each($("#addCommandDialog input"), (index) => {
 
 							// Insert the value of input to array
 							parameters.splice(index, 0, $("#addCommandDialog input").eq(index).val());
@@ -114,7 +114,7 @@ function addCommand(command) {
 								cmdCodeBlock = $(convertYamlToJson[i].cmd_codeblock);
 
 								// For each parameter in array...
-								$.each(parameters, function(i2) {
+								$.each(parameters, (i2) => {
 									// Replace the editable value on block with the respective array value
 									cmdCodeBlock.find(".block .editable").eq(i2).text(parameters[i2]);
 
@@ -155,7 +155,7 @@ function makeListsSortable() {
 	// Transform every list into a sortable list
 	$("ul.list").sortable({
 		handle: "i.drag",
-		onDrag: function() {
+		onDrag: () => {
 			$("html").css("overflow-y", "hidden");
 			if ($("li.placeholder")[0].getBoundingClientRect().top >= $(".scrollDiv")[0].getBoundingClientRect().top) {
 				window.scrollBy(0, 20);
@@ -163,7 +163,7 @@ function makeListsSortable() {
 				window.scrollBy(0, -20);
 			}
 		},
-		onDrop: function($item, container, _super) {
+		onDrop: ($item, container, _super) => {
 			convertBlocksToCode();
 			_super($item, container);
 			$("html").css("overflow-y", "auto");
@@ -220,7 +220,7 @@ function removeBlock(element) {
 	const dataObj = {
 		message: "Bloco removido",
 		actionText: "Desfazer",
-		actionHandler: function() {
+		actionHandler: () => {
 			$("#editArea").append(removedBlock);
 			convertBlocksToCode();
 		}
@@ -230,7 +230,7 @@ function removeBlock(element) {
 	convertBlocksToCode();
 
 	// Event triggered when the snackbar hide
-	$(".mdc-snackbar").on("MDCSnackbar:hide", function() {
+	$(".mdc-snackbar").on("MDCSnackbar:hide", () => {
 		$(this).remove();
 	});
 }
@@ -284,11 +284,11 @@ function importFile() {
 	$("#importFileInput").trigger("click");
 
 	// Whenever a file is opened
-	$("#importFileInput").on("change", function(e) {
+	$("#importFileInput").on("change", (e) => {
 		var reader = new FileReader();
 
 		// Read the selected file
-		reader.onload = function(e) {
+		reader.onload = (e) => {
 
 			// Remove all "script" tags from the file
 			$("#editArea").html($.parseHTML(e.target.result));
@@ -320,7 +320,7 @@ function editBlockValue(blockToEdit) {
 		<button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">Cancelar</button>
 	`);
 
-	$("#btnOK").on("click", function() {
+	$("#btnOK").on("click", () => {
 		$(blockToEdit).closest(".commandBlock").find(".block .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
 		$(blockToEdit).closest(".commandBlock").find(".code .editable").eq($(blockToEdit).index()).text($("#editBlockValueDialog input").val());
 		convertBlocksToCode();
@@ -345,13 +345,13 @@ function displaySelectCommandDialog() {
 	`);
 
 	// Get all data from data.yml
-	$.get("assets/data.yml", function(data) {
+	$.get("assets/data.yml", (data) => {
 
 		// Convert YAML data into JSON
 		var convertYamlToJson = jsyaml.load(data);
 
 		// For each command in json...
-		$.each(convertYamlToJson, function(i) {
+		$.each(convertYamlToJson, (i) => {
 
 			// Append all the json commands on the sidebar from json
 			$("#selectCommandDialog .mdc-list").append(`
@@ -373,8 +373,8 @@ function displaySelectCommandDialog() {
 }
 
 function searchCommands(input, listItem) {
-	$.each($(listItem).children(), function(i) {
-		$(this).find(".mdc-list-item__text .mdc-list-item__primary-text").filter(function() {
+	$.each($(listItem).children(), (i) => {
+		$(this).find(".mdc-list-item__text .mdc-list-item__primary-text").filter(() => {
 			$(this).parent().parent().toggle($(this).text().toLowerCase().indexOf($(input).val().toLowerCase()) > -1);
 		});
 	});
@@ -415,7 +415,7 @@ function displayDialog(dialogId, dialogTitle, dialogContent, dialogButtons) {
 	dialog.open();
 
 	// Event triggered when the dialog is closed
-	$(`#${dialogId}`).on("MDCDialog:closed", function() {
+	$(`#${dialogId}`).on("MDCDialog:closed", () => {
 		$(`#${dialogId}`).remove();
 	});
 }
@@ -426,13 +426,13 @@ function convertBlocksToCode() {
 	$("#codeOutput").html("");
 
 	// For each span with code class...
-	$.each($("span.code"), function() {
+	$.each($("span.code"), () => {
 
 		tabQuantity = [];
 		// If the item has any parents
 		if ($(this).parents("ul").length) {
 			// For each parent of the actual item...
-			$.each($(this).parents("ul"), function() {
+			$.each($(this).parents("ul"), () => {
 				// Adds a tab character to the tabQuantity array
 				tabQuantity.push("\t");
 			});
@@ -448,17 +448,17 @@ function convertBlocksToCode() {
 
 	});
 
-	$("pre").each(function(i, block) {
+	$("pre").each((i, block) => {
 		hljs.highlightBlock(block);
 	});
 
 	// Close button (event listener)
-	$(".close").on("click", function() {
+	$(".close").on("click", () => {
 		removeBlock(this);
 	});
 
 	// Editable field (event listener)
-	$(".editable").on("click", function() {
+	$(".editable").on("click", () => {
 		editBlockValue($(this));
 	});
 }
